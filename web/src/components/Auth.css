@@ -216,3 +216,27 @@
     font-size: 20px;
   }
 }
+
+/* Google Login Button */
+.btn-google {
+  transition: all 0.3s ease;
+}
+
+.btn-google:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+}
+
+.btn-google:active {
+  transform: translateY(0);
+}
+
+/* Spinner Animation for OAuth2 Callback */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}

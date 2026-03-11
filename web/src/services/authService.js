@@ -67,3 +67,15 @@ export const getCurrentUser = () => {
 export const isAuthenticated = () => {
   return !!getCurrentUser();
 };
+
+// Google OAuth2 Login
+export const loginWithGoogle = () => {
+  // Redirect to backend OAuth2 authorization endpoint (Spring Security default)
+  window.location.href = `${API_BASE_URL}/oauth2/authorization/google`;
+};
+
+// Get JWT token from current user
+export const getAuthToken = () => {
+  const user = getCurrentUser();
+  return user?.accessToken || null;
+};
