@@ -28,7 +28,7 @@ public class User {
     @Column(nullable = true) // Nullable for OAuth2 users
     private String password;
     
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "TEXT")
     private String picture;
     
     @CreationTimestamp
