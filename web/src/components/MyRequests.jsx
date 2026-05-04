@@ -192,16 +192,6 @@ function MyRequests() {
     }
   };
 
-  const getReturnStatusClass = (returnedOnTime) => {
-    if (returnedOnTime === true) {
-      return 'return-badge on-time';
-    }
-    if (returnedOnTime === false) {
-      return 'return-badge late';
-    }
-    return 'return-badge unknown';
-  };
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -247,69 +237,69 @@ function MyRequests() {
   const displayedRequests = activeTab === 'active' ? activeRequests : historyRequests;
 
   if (loading) {
-    return <div className={styles.loading}>Loading...</div>;
+    return <div className={styles['loading']}>Loading...</div>;
   }
 
   return (
-    <div className={styles.myRequestsContainer}>
+    <div className={styles['my-requests-container']}>
       {/* Navigation Header */}
-      <header className={styles.homepageHeader}>
-        <div className={styles.headerContent}>
-          <div className={styles.logoSection}>
-            <img src={logo} alt="Logo" className={styles.headerLogo} />
-            <span className={styles.headerTitle}>UniGear Tracker</span>
+      <header className={styles['homepage-header']}>
+        <div className={styles['header-content']}>
+          <div className={styles['logo-section']}>
+            <img src={logo} alt="Logo" className={styles['header-logo']} />
+            <span className={styles['header-title']}>UniGear Tracker</span>
           </div>
-          <nav className={styles.navLinks}>
-            <button onClick={() => navigate('/dashboard')} className={styles.navLink}>Catalog</button>
-            <button onClick={() => navigate('/my-requests')} className={`${styles.navLink} ${styles.active}`}>My Requests</button>
-            <button onClick={() => navigate('/profile')} className={styles.navLink}>Profile</button>
-            <button onClick={handleLogout} className={styles.logoutBtn}>Logout</button>
+          <nav className={styles['nav-links']}>
+            <button onClick={() => navigate('/dashboard')} className={styles['nav-link']}>Catalog</button>
+            <button onClick={() => navigate('/my-requests')} className={`${styles['nav-link']} ${styles.active}`}>My Requests</button>
+            <button onClick={() => navigate('/profile')} className={styles['nav-link']}>Profile</button>
+            <button onClick={handleLogout} className={styles['logout-btn']}>Logout</button>
           </nav>
         </div>
       </header>
 
-      <div className={styles.content}>
-        <div className={styles.pageHeader}>
+      <div className={styles['content']}>
+        <div className={styles['page-header']}>
           <div>
             <h1>My Requests</h1>
-            <p className={styles.subtitle}>Track your equipment borrowing requests and history</p>
+            <p className={styles['subtitle']}>Track your equipment borrowing requests and history</p>
           </div>
-          <button onClick={() => setShowForm(!showForm)} className={styles.btnNewRequest}>
+          <button onClick={() => setShowForm(!showForm)} className={styles['btn-new-request']}>
             {showForm ? '✕ Cancel' : '+ New Request'}
           </button>
         </div>
 
-        <div className={styles.statsGrid}>
-          <div className={styles.statCard + " " + styles.statTotal}>
-            <div className={styles.statIcon}>📊</div>
-            <div className={styles.statNumber}>{totalRequests}</div>
-            <div className={styles.statLabel}>Total Requests</div>
+        <div className={styles['stats-grid']}>
+          <div className={`${styles['stat-card']} ${styles['stat-total']}`}>
+            <div className={styles['stat-icon']}>📊</div>
+            <div className={styles['stat-number']}>{totalRequests}</div>
+            <div className={styles['stat-label']}>Total Requests</div>
           </div>
-          <div className={styles.statCard + " " + styles.statPending}>
-            <div className={styles.statIcon}>⏱️</div>
-            <div className={styles.statNumber}>{pendingCount}</div>
-            <div className={styles.statLabel}>Pending</div>
+          <div className={`${styles['stat-card']} ${styles['stat-pending']}`}>
+            <div className={styles['stat-icon']}>⏱️</div>
+            <div className={styles['stat-number']}>{pendingCount}</div>
+            <div className={styles['stat-label']}>Pending</div>
           </div>
-          <div className={styles.statCard + " " + styles.statApproved}>
-            <div className={styles.statIcon}>✓</div>
-            <div className={styles.statNumber}>{approvedCount}</div>
-            <div className={styles.statLabel}>Approved</div>
+          <div className={`${styles['stat-card']} ${styles['stat-approved']}`}>
+            <div className={styles['stat-icon']}>✓</div>
+            <div className={styles['stat-number']}>{approvedCount}</div>
+            <div className={styles['stat-label']}>Approved</div>
           </div>
-          <div className={`${styles.statCard} ${styles.statCompleted}`}>
-            <div className={styles.statIcon}>✓</div>
-            <div className={styles.statNumber}>{completedCount}</div>
-            <div className={styles.statLabel}>Completed</div>
+          <div className={`${styles['stat-card']} ${styles['stat-completed']}`}>
+            <div className={styles['stat-icon']}>✓</div>
+            <div className={styles['stat-number']}>{completedCount}</div>
+            <div className={styles['stat-label']}>Completed</div>
           </div>
         </div>
 
-        {error && <div className="error-message">{error}</div>}
+        {error && <div className={styles['error-message']}>{error}</div>}
 
         {showForm && (
-          <div className={styles.requestForm}>
-            <h2>Create New Request</h2>
+          <div className={styles['request-form']}>
+            <h2 className={styles['form-title']}>Create New Request</h2>
             <form onSubmit={handleSubmit}>
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
+              <div className={styles['form-row']}>
+                <div className={styles['form-group']}>
                   <label>Equipment Name *</label>
                   <input
                     type="text"
@@ -319,7 +309,7 @@ function MyRequests() {
                   />
                 </div>
                 
-                <div className={styles.formGroup}>
+                <div className={styles['form-group']}>
                   <label>Category *</label>
                   <select
                     value={formData.category}
@@ -337,7 +327,7 @@ function MyRequests() {
                   </select>
                 </div>
                 
-                <div className={styles.formGroup}>
+                <div className={styles['form-group']}>
                   <label>Quantity *</label>
                   <input
                     type="number"
@@ -348,7 +338,7 @@ function MyRequests() {
                   />
                 </div>
 
-                <div className={styles.formGroup}>
+                <div className={styles['form-group']}>
                   <label>Borrow Date *</label>
                   <input
                     type="date"
@@ -358,7 +348,7 @@ function MyRequests() {
                   />
                 </div>
 
-                <div className={styles.formGroup}>
+                <div className={styles['form-group']}>
                   <label>Return Date *</label>
                   <input
                     type="date"
@@ -369,7 +359,7 @@ function MyRequests() {
                   />
                 </div>
 
-                <div className={styles.formGroup}>
+                <div className={styles['form-group']}>
                   <label>Student Name *</label>
                   <input
                     type="text"
@@ -379,7 +369,7 @@ function MyRequests() {
                   />
                 </div>
 
-                <div className={styles.formGroup}>
+                <div className={styles['form-group']}>
                   <label>School ID Number *</label>
                   <input
                     type="text"
@@ -392,7 +382,7 @@ function MyRequests() {
                   />
                 </div>
 
-                <div className={styles.formGroup}>
+                <div className={styles['form-group']}>
                   <label>Year *</label>
                   <input
                     type="text"
@@ -402,7 +392,7 @@ function MyRequests() {
                   />
                 </div>
 
-                <div className={styles.formGroup}>
+                <div className={styles['form-group']}>
                   <label>Course *</label>
                   <input
                     type="text"
@@ -413,7 +403,7 @@ function MyRequests() {
                 </div>
               </div>
               
-              <div className={styles.formGroup}>
+              <div className={styles['form-group']}>
                 <label>Purpose / Description</label>
                 <textarea
                   value={formData.description}
@@ -423,35 +413,35 @@ function MyRequests() {
                 />
               </div>
 
-              <div className={styles.formGroup}>
+              <div className={styles['form-group']}>
                 <label>Event Approval PDF (Optional)</label>
-                <p className="form-label-hint">Upload a PDF file for event approval (if applicable)</p>
+                <p className={styles['form-label-hint']}>Upload a PDF file for event approval (if applicable)</p>
                 <input
                   type="file"
                   accept=".pdf"
                   onChange={(e) => setFormData({...formData, eventApprovalPdf: e.target.files[0] || null})}
-                  className="file-input"
+                  className={styles['file-input']}
                 />
                 {formData.eventApprovalPdf && (
-                  <div className="file-selected">✓ {formData.eventApprovalPdf.name}</div>
+                  <div className={styles['file-selected']}>✓ {formData.eventApprovalPdf.name}</div>
                 )}
               </div>
               
-              <button type="submit" className="btn-submit">Submit Request</button>
+              <button type="submit" className={styles['btn-submit']}>Submit Request</button>
             </form>
           </div>
         )}
 
         {/* Tabs */}
-        <div className="tabs-container">
+        <div className={styles['tabs-container']}>
           <button 
-            className={`tab ${activeTab === 'active' ? 'active' : ''}`}
+            className={`${styles['tab']} ${activeTab === 'active' ? styles['active'] : ''}`}
             onClick={() => setActiveTab('active')}
           >
             Active Requests ({activeRequests.length})
           </button>
           <button 
-            className={`tab ${activeTab === 'history' ? 'active' : ''}`}
+            className={`${styles['tab']} ${activeTab === 'history' ? styles['active'] : ''}`}
             onClick={() => setActiveTab('history')}
           >
             History ({historyRequests.length})
@@ -459,20 +449,20 @@ function MyRequests() {
         </div>
 
         {/* Requests List */}
-        <div className="requests-grid">
+        <div className={styles['requests-grid']}>
           {displayedRequests.length === 0 ? (
-            <div className="no-requests">
+            <div className={styles['no-requests']}>
               <p>No {activeTab === 'active' ? 'active' : 'history'} requests found.</p>
               {activeTab === 'active' && (
-                <button onClick={() => setShowForm(true)} className="btn-primary">Create Your First Request</button>
+                <button onClick={() => setShowForm(true)} className={styles['btn-primary']}>Create Your First Request</button>
               )}
             </div>
           ) : (
             displayedRequests.map(request => (
-              <div key={request.id} className={`request-card ${getBorderClass(request.status)}`}>
-                <div className="request-card-header">
-                  <h3 className="request-card-title">🎯 {request.equipmentName}</h3>
-                  <span className={`status-badge ${getStatusClass(request.status)}`}>
+              <div key={request.id} className={`${styles['request-card']} ${styles[getBorderClass(request.status)]}`}>
+                <div className={styles['request-card-header']}>
+                  <h3 className={styles['request-card-title']}>🎯 {request.equipmentName}</h3>
+                  <span className={`${styles['status-badge']} ${styles[getStatusClass(request.status)]}`}>
                     {request.status === 'PENDING' && '⏱️ Pending'}
                     {request.status === 'APPROVED' && '✅ Approved'}
                     {request.status === 'REJECTED' && '❌ Rejected'}
@@ -480,8 +470,8 @@ function MyRequests() {
                   </span>
                 </div>
 
-                <div className="request-meta">
-                  <span className="meta-icon">📅</span>
+                <div className={styles['request-meta']}>
+                  <span className={styles['meta-icon']}>📅</span>
                   {new Date(request.createdAt).toLocaleDateString('en-US', { 
                     month: 'short', 
                     day: 'numeric', 
@@ -497,24 +487,24 @@ function MyRequests() {
                 </div>
 
                 {request.description && (
-                  <div className="request-section">
-                    <div className="section-label">📝 Purpose:</div>
-                    <p className="section-content">{request.description}</p>
+                  <div className={styles['request-section']}>
+                    <div className={styles['section-label']}>📝 Purpose:</div>
+                    <p className={styles['section-content']}>{request.description}</p>
                   </div>
                 )}
 
-                <div className="request-details-grid">
-                  <div className="detail-item">
-                    <span className="detail-label">📦 Category</span>
-                    <span className="detail-value">{request.category}</span>
+                <div className={styles['request-details-grid']}>
+                  <div className={styles['detail-item']}>
+                    <span className={styles['detail-label']}>📦 Category</span>
+                    <span className={styles['detail-value']}>{request.category}</span>
                   </div>
-                  <div className="detail-item">
-                    <span className="detail-label">🔢 Quantity</span>
-                    <span className="detail-value">{request.quantity}</span>
+                  <div className={styles['detail-item']}>
+                    <span className={styles['detail-label']}>🔢 Quantity</span>
+                    <span className={styles['detail-value']}>{request.quantity}</span>
                   </div>
-                  <div className="detail-item">
-                    <span className="detail-label">📥 Borrow Date</span>
-                    <span className="detail-value">
+                  <div className={styles['detail-item']}>
+                    <span className={styles['detail-label']}>📥 Borrow Date</span>
+                    <span className={styles['detail-value']}>
                       {request.borrowDate ? new Date(request.borrowDate).toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
@@ -522,9 +512,9 @@ function MyRequests() {
                       }) : '-'}
                     </span>
                   </div>
-                  <div className="detail-item">
-                    <span className="detail-label">📤 Return Date</span>
-                    <span className="detail-value">
+                  <div className={styles['detail-item']}>
+                    <span className={styles['detail-label']}>📤 Return Date</span>
+                    <span className={styles['detail-value']}>
                       {request.returnDate ? new Date(request.returnDate).toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
@@ -532,26 +522,30 @@ function MyRequests() {
                       }) : '-'}
                     </span>
                   </div>
-                  <div className="detail-item">
-                    <span className="detail-label">👤 Student Name</span>
-                    <span className="detail-value">{request.studentName || '-'}</span>
+                  <div className={styles['detail-item']}>
+                    <span className={styles['detail-label']}>👤 Student Name</span>
+                    <span className={styles['detail-value']}>{request.studentName || '-'}</span>
                   </div>
-                  <div className="detail-item">
-                    <span className="detail-label">🪪 School ID</span>
-                    <span className="detail-value">{request.schoolIdNumber || '-'}</span>
+                  <div className={styles['detail-item']}>
+                    <span className={styles['detail-label']}>🪪 School ID</span>
+                    <span className={styles['detail-value']}>{request.schoolIdNumber || '-'}</span>
                   </div>
-                  <div className="detail-item">
-                    <span className="detail-label">🎓 Year</span>
-                    <span className="detail-value">{request.yearLevel || '-'}</span>
+                  <div className={styles['detail-item']}>
+                    <span className={styles['detail-label']}>🎓 Year</span>
+                    <span className={styles['detail-value']}>{request.yearLevel || '-'}</span>
                   </div>
-                  <div className="detail-item">
-                    <span className="detail-label">📚 Course</span>
-                    <span className="detail-value">{request.course || '-'}</span>
+                  <div className={styles['detail-item']}>
+                    <span className={styles['detail-label']}>📚 Course</span>
+                    <span className={styles['detail-value']}>{request.course || '-'}</span>
                   </div>
                   {request.status === 'COMPLETED' && (
-                    <div className="detail-item">
-                      <span className="detail-label">⏱ Return Status</span>
-                      <span className={getReturnStatusClass(request.returnedOnTime)}>
+                    <div className={styles['detail-item']}>
+                      <span className={styles['detail-label']}>⏱ Return Status</span>
+                      <span className={`${styles['return-badge']} ${
+                        request.returnedOnTime === true ? styles['on-time'] : 
+                        request.returnedOnTime === false ? styles['late'] : 
+                        styles['unknown']
+                      }`}>
                         {request.returnedOnTime === true ? 'On Time' : request.returnedOnTime === false ? 'Late Return' : 'Unknown'}
                       </span>
                     </div>
@@ -559,26 +553,26 @@ function MyRequests() {
                 </div>
 
                 {request.notes && (
-                  <div className="request-section">
-                    <div className="section-label">💬 Admin Notes:</div>
-                    <p className="section-content admin-note">{request.notes}</p>
+                  <div className={styles['request-section']}>
+                    <div className={styles['section-label']}>💬 Admin Notes:</div>
+                    <p className={`${styles['section-content']} ${styles['admin-note']}`}>{request.notes}</p>
                   </div>
                 )}
 
                 {request.eventApprovalPdf && (
-                  <div className="request-section">
-                    <div className="section-label">📄 Event Approval PDF:</div>
+                  <div className={styles['request-section']}>
+                    <div className={styles['section-label']}>📄 Event Approval PDF:</div>
                     <button 
                       onClick={() => handleDownloadPdf(request.id)}
-                      className="btn-download-pdf"
+                      className={styles['btn-download-pdf']}
                     >
                       📥 Download PDF
                     </button>
                   </div>
                 )}
 
-                <div className="request-footer">
-                  <span className="submitted-text">
+                <div className={styles['request-footer']}>
+                  <span className={styles['submitted-text']}>
                     Submitted on {new Date(request.createdAt).toLocaleDateString('en-US', { 
                       month: 'short', 
                       day: 'numeric', 
@@ -588,11 +582,11 @@ function MyRequests() {
                       minute: '2-digit'
                     })}
                   </span>
-                  <div className="card-actions">
+                  <div className={styles['card-actions']}>
                     {request.status === 'PENDING' && (
                       <button 
                         onClick={() => handleDelete(request.id)} 
-                        className="btn-delete-small"
+                        className={styles['btn-delete-small']}
                       >
                         Delete
                       </button>

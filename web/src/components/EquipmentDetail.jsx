@@ -275,12 +275,12 @@ function EquipmentDetail() {
   }
 
   if (loading) {
-    return <div className={styles.loading}>Loading equipment details...</div>;
+    return <div className={styles['loading']}>Loading equipment details...</div>;
   }
 
   if (!equipment) {
     return (
-      <div className={styles.detailContainer}>
+      <div className={styles['detail-container']}>
         <p>{error || 'Equipment not found'}</p>
         <button onClick={() => navigate('/dashboard')}>Back to Catalog</button>
       </div>
@@ -288,39 +288,39 @@ function EquipmentDetail() {
   }
 
   return (
-    <div className={styles.detailContainer}>
+    <div className={styles['detail-container']}>
       {/* Navigation Header */}
-      <header className={styles.detailHeader}>
-        <div className={styles.headerContent}>
-          <div className={styles.logoSection}>
-            <img src={logo} alt="Logo" className={styles.headerLogo} />
-            <span className={styles.headerTitle}>UniGear Tracker</span>
+      <header className={styles['detail-header']}>
+        <div className={styles['header-content']}>
+          <div className={styles['logo-section']}>
+            <img src={logo} alt="Logo" className={styles['header-logo']} />
+            <span className={styles['header-title']}>UniGear Tracker</span>
           </div>
-          <nav className={styles.navLinks}>
-            <button type="button" onClick={() => navigate('/dashboard')} className={styles.navLink}>Catalog</button>
+          <nav className={styles['nav-links']}>
+            <button type="button" onClick={() => navigate('/dashboard')} className={styles['nav-link']}>Catalog</button>
             {user?.role === 'ADMIN' ? (
               <>
-                <button type="button" onClick={() => navigate('/admin?tab=equipment')} className={styles.navLink}>Equipment</button>
-                <button type="button" onClick={() => navigate('/admin?tab=users')} className={styles.navLink}>Users</button>
-                <button type="button" onClick={() => navigate('/admin?tab=borrowed')} className={styles.navLink}>Borrowed</button>
-                <button type="button" onClick={() => navigate('/admin?tab=requests')} className={styles.navLink}>Requests</button>
-                <button type="button" onClick={() => navigate('/profile')} className={styles.navLink}>Profile</button>
+                <button type="button" onClick={() => navigate('/admin?tab=equipment')} className={styles['nav-link']}>Equipment</button>
+                <button type="button" onClick={() => navigate('/admin?tab=users')} className={styles['nav-link']}>Users</button>
+                <button type="button" onClick={() => navigate('/admin?tab=borrowed')} className={styles['nav-link']}>Borrowed</button>
+                <button type="button" onClick={() => navigate('/admin?tab=requests')} className={styles['nav-link']}>Requests</button>
+                <button type="button" onClick={() => navigate('/profile')} className={styles['nav-link']}>Profile</button>
               </>
             ) : (
               <>
-                <button type="button" onClick={() => navigate('/my-requests')} className={styles.navLink}>My Requests</button>
-                <button type="button" onClick={() => navigate('/profile')} className={styles.navLink}>Profile</button>
+                <button type="button" onClick={() => navigate('/my-requests')} className={styles['nav-link']}>My Requests</button>
+                <button type="button" onClick={() => navigate('/profile')} className={styles['nav-link']}>Profile</button>
               </>
             )}
-            <button onClick={handleLogout} className={styles.logoutBtn}>Logout</button>
+            <button onClick={handleLogout} className={styles['logout-btn']}>Logout</button>
           </nav>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className={styles.detailMain}>
+      <main className={styles['detail-main']}>
         {/* Back Button */}
-        <button className={styles.backButton} onClick={() => navigate('/dashboard')}>
+        <button className={styles['back-button']} onClick={() => navigate('/dashboard')}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
@@ -328,23 +328,23 @@ function EquipmentDetail() {
         </button>
 
         {/* Equipment Detail Card */}
-        <div className={styles.detailCard}>
+        <div className={styles['detail-card']}>
           {/* Image Section */}
-          <div className={styles.detailImageSection}>
+          <div className={styles['detail-image-section']}>
             {images.length > 0 ? (
-              <div className={styles.detailImageGallery}>
-                <div className={styles.galleryMain}>
+              <div className={styles['detail-image-gallery']}>
+                <div className={styles['gallery-main']}>
                   <img
                     src={images[currentImageIndex].url}
                     alt={images[currentImageIndex].alt}
-                    className={styles.galleryImage}
+                    className={styles['gallery-image']}
                   />
-                  <div className={styles.galleryOverlay}>
+                  <div className={styles['gallery-overlay']}>
                     <a
                       href={images[currentImageIndex].photographerUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={styles.galleryCredit}
+                      className={styles['gallery-credit']}
                     >
                       Photo by {images[currentImageIndex].photographer} on Unsplash
                     </a>
@@ -352,19 +352,19 @@ function EquipmentDetail() {
                 </div>
 
                 {images.length > 1 && (
-                  <div className={styles.galleryControls}>
+                  <div className={styles['gallery-controls']}>
                     <button
-                      className={styles.galleryNavBtn prev}
+                      className={styles['gallery-nav-btn']}
                       onClick={() => setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))}
                       aria-label="Previous image"
                     >
                       ❮
                     </button>
-                    <div className={styles.galleryThumbnails}>
+                    <div className={styles['gallery-thumbnails']}>
                       {images.map((img, index) => (
                         <button
                           key={index}
-                          className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
+                          className={`${styles.thumbnail} ${index === currentImageIndex ? styles.active : ''}`}
                           onClick={() => setCurrentImageIndex(index)}
                           aria-label={`View image ${index + 1}`}
                         >
@@ -373,7 +373,7 @@ function EquipmentDetail() {
                       ))}
                     </div>
                     <button
-                      className={styles.galleryNavBtn next}
+                      className={styles['gallery-nav-btn']}
                       onClick={() => setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))}
                       aria-label="Next image"
                     >
@@ -383,27 +383,27 @@ function EquipmentDetail() {
                 )}
               </div>
             ) : (
-              <div className={styles.detailImagePlaceholder}>
+              <div className={styles['detail-image-placeholder']}>
                 {equipment.name.charAt(0)}
               </div>
             )}
           </div>
 
           {/* Status Badge */}
-          <div className={styles.detailInfoSection}>
-            <span className={`detail-status-badge ${equipment.status === 'Available' ? 'available' : 'in-use'}`}>
+          <div className={styles['detail-info-section']}>
+            <span className={`${styles['detail-status-badge']} ${equipment.status === 'AVAILABLE' ? styles.available : styles['in-use']}`}>
               {toDisplayStatus(equipment.status)}
             </span>
 
-            <h1 className={styles.detailTitle}>{equipment.name}</h1>
+            <h1 className={styles['detail-title']}>{equipment.name}</h1>
             
-            <p className={styles.availabilityText}>
+            <p className={styles['availability-text']}>
               {equipment.status === 'AVAILABLE' 
                 ? 'This equipment is available for borrowing' 
                 : 'This equipment is currently in use'}
             </p>
 
-            <div className={styles.detailLocation}>
+            <div className={styles['detail-location']}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                 <circle cx="12" cy="10" r="3"></circle>
@@ -411,11 +411,11 @@ function EquipmentDetail() {
               <span>{equipment.location}</span>
             </div>
 
-            <p className={styles.detailDescription}>{equipment.description}</p>
+            <p className={styles['detail-description']}>{equipment.description}</p>
 
-            <div className={styles.specificationsSection}>
+            <div className={styles['specifications-section']}>
               <h3>Technical Specifications</h3>
-              <ul className={styles.specificationsList}>
+              <ul className={styles['specifications-list']}>
                 {(Array.isArray(equipment.specifications) ? equipment.specifications : []).map((spec, index) => (
                   <li key={index}>{spec}</li>
                 ))}
@@ -423,34 +423,34 @@ function EquipmentDetail() {
             </div>
 
             {/* Availability Calendar */}
-            <div className={styles.calendarSection}>
+            <div className={styles['calendar-section']}>
               <h3>Availability Calendar</h3>
-              <p className={styles.calendarDescription}>
+              <p className={styles['calendar-description']}>
                 Select dates to check availability before creating a request.
               </p>
 
-              <div className={styles.calendarContainer}>
-                <div className={styles.calendarHeader}>
+              <div className={styles['calendar-container']}>
+                <div className={styles['calendar-header']}>
                   <button
                     type="button"
-                    className={styles.calendarNavBtn}
+                    className={styles['calendar-nav-btn']}
                     onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
                   >
                     ← Prev
                   </button>
-                  <h4 className={styles.calendarMonth}>
+                  <h4 className={styles['calendar-month']}>
                     {currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
                   </h4>
                   <button
                     type="button"
-                    className={styles.calendarNavBtn}
+                    className={styles['calendar-nav-btn']}
                     onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
                   >
                     Next →
                   </button>
                 </div>
 
-                <div className={styles.calendarWeekdays}>
+                <div className={styles['calendar-weekdays']}>
                   {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
                     <div key={day} className={styles.weekday}>
                       {day}
@@ -458,17 +458,17 @@ function EquipmentDetail() {
                   ))}
                 </div>
 
-                <div className={styles.calendarDays}>
+                <div className={styles['calendar-days']}>
                   {generateCalendarDays().map((date, index) => (
                     <button
                       key={index}
                       type="button"
-                      className={`calendar-day ${
-                        !date ? 'empty' : ''
-                      } ${isDateBorrowed(date) ? 'borrowed' : ''} ${
-                        isStartDate(date) ? 'start-date' : ''
-                      } ${isEndDate(date) ? 'end-date' : ''} ${
-                        isDateSelected(date) ? 'selected' : ''
+                      className={`${styles['calendar-day']} ${
+                        !date ? styles.empty : ''
+                      } ${isDateBorrowed(date) ? styles.borrowed : ''} ${
+                        isStartDate(date) ? styles['start-date'] : ''
+                      } ${isEndDate(date) ? styles['end-date'] : ''} ${
+                        isDateSelected(date) ? styles.selected : ''
                       }`}
                       onClick={() => date && handleDateClick(date)}
                       disabled={!date || isDateBorrowed(date)}
@@ -487,7 +487,7 @@ function EquipmentDetail() {
               </div>
 
               {selectedStartDate && (
-                <div className={styles.calendarSelectionInfo}>
+                <div className={styles['calendar-selection-info']}>
                   <p>
                     <strong>Selected Period:</strong> {selectedStartDate.toLocaleDateString()} 
                     {selectedEndDate && ` to ${selectedEndDate.toLocaleDateString()}`}
@@ -499,7 +499,7 @@ function EquipmentDetail() {
                   )}
                   <button
                     type="button"
-                    className={styles.btnClearDates}
+                    className={styles['btn-clear-dates']}
                     onClick={() => {
                       setSelectedStartDate(null);
                       setSelectedEndDate(null);
@@ -510,24 +510,24 @@ function EquipmentDetail() {
                 </div>
               )}
 
-              <div className={styles.calendarLegend}>
-                <div className={styles.legendItem}>
-                  <div className={styles.legendColor available}></div>
+              <div className={styles['calendar-legend']}>
+                <div className={styles['legend-item']}>
+                  <div className={`${styles['legend-color']} ${styles.available}`}></div>
                   <span>Available</span>
                 </div>
-                <div className={styles.legendItem}>
-                  <div className={styles.legendColor borrowed}></div>
+                <div className={styles['legend-item']}>
+                  <div className={`${styles['legend-color']} ${styles.borrowed}`}></div>
                   <span>Not Available</span>
                 </div>
-                <div className={styles.legendItem}>
-                  <div className={styles.legendColor selected}></div>
+                <div className={styles['legend-item']}>
+                  <div className={`${styles['legend-color']} ${styles.selected}`}></div>
                   <span>Selected</span>
                 </div>
               </div>
             </div>
 
             <button 
-              className={styles.requestButton}
+              className={styles['request-button']}
               disabled={equipment.status !== 'AVAILABLE'}
               onClick={() => navigate('/my-requests', {
                 state: {

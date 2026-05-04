@@ -8,6 +8,7 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
   const [borrowedRecords, setBorrowedRecords] = useState([]);
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadedTabs, setLoadedTabs] = useState({});
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [decisionNotes, setDecisionNotes] = useState({});
@@ -45,41 +46,80 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
     return response.json();
   }, []);
 
-  const fetchAllAdminData = useCallback(async () => {
+  const fetchEquipment = useCallback(async () => {
+    const data = await apiFetch('/equipment');
+    setEquipment(Array.isArray(data) ? data : []);
+  }, [apiFetch]);
+
+  const fetchUsers = useCallback(async () => {
+    const data = await apiFetch('/admin/users');
+    setUsers(Array.isArray(data) ? data : []);
+  }, [apiFetch]);
+
+  const fetchBorrowed = useCallback(async () => {
+    const data = await apiFetch('/admin/borrowed');
+    setBorrowedRecords(Array.isArray(data) ? data : []);
+  }, [apiFetch]);
+
+  const fetchRequests = useCallback(async () => {
+    const data = await apiFetch('/admin/requests');
+    setRequests(Array.isArray(data) ? data : []);
+  }, [apiFetch]);
+
+  const fetchOverviewData = useCallback(async () => {
     setLoading(true);
     setError('');
 
     try {
-      const [equipmentData, usersData, borrowedData, requestsData] = await Promise.all([
-        apiFetch('/equipment'),
-        apiFetch('/admin/users'),
-        apiFetch('/admin/borrowed'),
-        apiFetch('/admin/requests')
-      ]);
-
-      setEquipment(Array.isArray(equipmentData) ? equipmentData : []);
-      setUsers(Array.isArray(usersData) ? usersData : []);
-      setBorrowedRecords(Array.isArray(borrowedData) ? borrowedData : []);
-      setRequests(Array.isArray(requestsData) ? requestsData : []);
+      await Promise.all([fetchEquipment(), fetchBorrowed(), fetchRequests()]);
     } catch (err) {
       setError(err.message || 'Error connecting to server');
     } finally {
       setLoading(false);
     }
-  }, [apiFetch]);
+  }, [fetchBorrowed, fetchEquipment, fetchRequests]);
 
-  useEffect(() => {
-    fetchAllAdminData();
-  }, [fetchAllAdminData]);
+  const loadTabData = useCallback(async (tab) => {
+    if (tab === 'overview') {
+      if (loadedTabs.overview) {
+        setLoading(false);
+        return;
+      }
+      await fetchOverviewData();
+      setLoadedTabs((prev) => ({ ...prev, overview: true }));
+      return;
+    }
 
-  const fetchEquipment = async () => {
+    if (loadedTabs[tab]) {
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
     try {
-      const data = await apiFetch('/equipment');
-      setEquipment(Array.isArray(data) ? data : []);
+      if (tab === 'equipment') {
+        await fetchEquipment();
+      } else if (tab === 'users') {
+        await fetchUsers();
+      } else if (tab === 'borrowed') {
+        await fetchBorrowed();
+      } else if (tab === 'requests') {
+        await fetchRequests();
+      }
+
+      setLoadedTabs((prev) => ({ ...prev, [tab]: true }));
     } catch (err) {
       setError(err.message || 'Error connecting to server');
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [fetchBorrowed, fetchEquipment, fetchRequests, fetchUsers, fetchOverviewData, loadedTabs]);
+
+  useEffect(() => {
+    loadTabData(activeTab);
+  }, [activeTab, loadTabData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -124,7 +164,8 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
         status: 'AVAILABLE'
       });
       setSuccess('Equipment added successfully.');
-      fetchEquipment();
+      await fetchEquipment();
+      setLoadedTabs((prev) => ({ ...prev, equipment: true, overview: true }));
     } catch (err) {
       setError(err.message || 'Error connecting to server');
     }
@@ -146,7 +187,8 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
 
       setSuccess(`Request ${status.toLowerCase()} successfully.`);
       setDecisionNotes((prev) => ({ ...prev, [requestId]: '' }));
-      fetchAllAdminData();
+      setLoadedTabs((prev) => ({ ...prev, requests: false, borrowed: false, overview: false }));
+      await loadTabData(activeTab);
     } catch (err) {
       setError(err.message || 'Failed to update request status');
     }

@@ -13,6 +13,9 @@ function OAuth2Callback() {
     // Parse query parameters
     const params = new URLSearchParams(location.search);
     const token = params.get('token');
+    const role = params.get('role');
+    const email = params.get('email');
+    const name = params.get('name');
     const errorParam = params.get('error');
 
     if (errorParam) {
@@ -48,12 +51,34 @@ function OAuth2Callback() {
               navigate('/dashboard');
             }
           } else {
-            localStorage.setItem('user', JSON.stringify({ accessToken: token }));
-            navigate('/dashboard');
+            const fallbackRole = role || 'STUDENT';
+            localStorage.setItem('user', JSON.stringify({
+              accessToken: token,
+              role: fallbackRole,
+              email: email || '',
+              name: name || ''
+            }));
+
+            if (fallbackRole === 'ADMIN') {
+              navigate('/admin?tab=overview');
+            } else {
+              navigate('/dashboard');
+            }
           }
         } catch (err) {
-          localStorage.setItem('user', JSON.stringify({ accessToken: token }));
-          navigate('/dashboard');
+          const fallbackRole = role || 'STUDENT';
+          localStorage.setItem('user', JSON.stringify({
+            accessToken: token,
+            role: fallbackRole,
+            email: email || '',
+            name: name || ''
+          }));
+
+          if (fallbackRole === 'ADMIN') {
+            navigate('/admin?tab=overview');
+          } else {
+            navigate('/dashboard');
+          }
         }
       };
 

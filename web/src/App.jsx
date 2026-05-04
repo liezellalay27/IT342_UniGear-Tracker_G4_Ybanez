@@ -8,6 +8,7 @@ import EquipmentDetail from './components/EquipmentDetail.jsx';
 import MyRequests from './components/MyRequests.jsx';
 import Profile from './components/Profile.jsx';
 import AdminDashboard from './components/Admin/AdminDashboard.jsx';
+import './adminStyles.css';
 import { getCurrentUser, isAuthenticated } from './services/authService';
 
 // Protected Route Component
