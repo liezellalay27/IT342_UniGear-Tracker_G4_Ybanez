@@ -17,6 +17,75 @@
   z-index: 100;
 }
 
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logo {
+  height: 40px;
+  width: auto;
+}
+
+.header-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #333;
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 0;
+  transition: color 0.3s ease;
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.nav-link:hover {
+  color: #3d0000;
+}
+
+.logout-btn {
+  background: #3d0000;
+  color: white;
+  border: 2px solid #3d0000;
+  padding: 8px 24px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #efbf04;
+  border-color: #efbf04;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 191, 4, 0.3);
+}
+
 .detail-main {
   max-width: 1200px;
   margin: 0 auto;
@@ -40,7 +109,7 @@
 }
 
 .back-button:hover {
-  color: #550000;
+  color: #3d0000;
 }
 
 .back-button svg {
@@ -70,7 +139,7 @@
 .detail-image-placeholder {
   font-size: 120px;
   font-weight: 900;
-  color: #550000;
+  color: #3d0000;
   opacity: 0.3;
 }
 
@@ -151,9 +220,9 @@
 }
 
 .gallery-nav-btn:hover {
-  background: #550000;
+  background: #3d0000;
   color: white;
-  border-color: #550000;
+  border-color: #3d0000;
 }
 
 .gallery-thumbnails {
@@ -201,11 +270,11 @@
 }
 
 .thumbnail:hover {
-  border-color: #550000;
+  border-color: #3d0000;
 }
 
 .thumbnail.active {
-  border-color: #550000;
+  border-color: #3d0000;
   box-shadow: 0 0 8px rgba(85, 0, 0, 0.2);
 }
 
@@ -226,7 +295,7 @@
 }
 
 .detail-status-badge.available {
-  background: #550000;
+  background: #3d0000;
   color: white;
 }
 
@@ -259,7 +328,7 @@
 }
 
 .detail-location svg {
-  color: #550000;
+  color: #3d0000;
 }
 
 .detail-description {
@@ -299,7 +368,7 @@
   content: '•';
   position: absolute;
   left: 0;
-  color: #550000;
+  color: #3d0000;
   font-weight: bold;
   font-size: 20px;
 }
@@ -307,7 +376,7 @@
 /* Request Button */
 .request-button {
   width: 100%;
-  background: #550000;
+  background: #3d0000;
   color: white;
   border: none;
   padding: 18px;
@@ -321,7 +390,7 @@
 }
 
 .request-button:hover:not(:disabled) {
-  background: #7a0000;
+  background: #2a0000;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(85, 0, 0, 0.3);
 }
@@ -389,9 +458,9 @@
 }
 
 .calendar-nav-btn:hover {
-  background: #550000;
+  background: #3d0000;
   color: white;
-  border-color: #550000;
+  border-color: #3d0000;
 }
 
 .calendar-weekdays {
@@ -404,7 +473,7 @@
 .weekday {
   text-align: center;
   font-weight: 700;
-  color: #550000;
+  color: #3d0000;
   font-size: 13px;
   padding: 8px 0;
 }
@@ -432,7 +501,7 @@
 }
 
 .calendar-day:hover:not(:disabled) {
-  border-color: #550000;
+  border-color: #3d0000;
   background: #fff8f8;
 }
 
@@ -456,15 +525,15 @@
 
 .calendar-day.selected {
   background: #ffe0e0;
-  border-color: #550000;
-  color: #550000;
+  border-color: #3d0000;
+  color: #3d0000;
 }
 
 .calendar-day.start-date,
 .calendar-day.end-date {
-  background: #550000;
+  background: #3d0000;
   color: white;
-  border-color: #550000;
+  border-color: #3d0000;
 }
 
 .calendar-selection-info {
@@ -482,7 +551,7 @@
 }
 
 .calendar-selection-info .duration {
-  color: #550000;
+  color: #3d0000;
   font-weight: 600;
 }
 
@@ -535,13 +604,23 @@
 
 .legend-color.selected {
   background: #ffe0e0;
-  border-color: #550000;
+  border-color: #3d0000;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .detail-header {
     padding: 15px 20px;
+  }
+
+  .header-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .nav-links {
+    gap: 20px;
+    justify-content: center;
   }
 
   .detail-main {

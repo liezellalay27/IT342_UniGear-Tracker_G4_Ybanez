@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from '../Profile.module.css';
 
 function UserProfilePanel({
   profile,
@@ -13,55 +14,55 @@ function UserProfilePanel({
   handleSubmit
 }) {
   return (
-    <div className="profile-card">
+    <div className={styles['profile-card']}>
       <h1>My Profile</h1>
 
-      {error && <div className="error-message">{error}</div>}
-      {success && <div className="success-message">{success}</div>}
+      {error && <div className={styles['error-message']}>{error}</div>}
+      {success && <div className={styles['success-message']}>{success}</div>}
 
-      <div className="profile-picture-section">
-        <div className="profile-picture">
+      <div className={styles['profile-picture-section']}>
+        <div className={styles['profile-picture']}>
           {profile.picture ? (
             <img src={profile.picture} alt={profile.name} />
           ) : (
-            <div className="profile-initials">
+            <div className={styles['profile-initials']}>
               {profile.name.charAt(0).toUpperCase()}
             </div>
           )}
         </div>
         {!editing && (
-          <button onClick={() => setEditing(true)} className="change-picture-btn">
+          <button onClick={() => setEditing(true)} className={styles['change-picture-btn']}>
             Change Picture
           </button>
         )}
       </div>
 
       {!editing ? (
-        <div className="profile-info">
-          <div className="info-row">
+        <div className={styles['profile-info']}>
+          <div className={styles['info-row']}>
             <label>Name:</label>
             <span>{profile.name}</span>
           </div>
-          <div className="info-row">
+          <div className={styles['info-row']}>
             <label>Email:</label>
             <span>{profile.email}</span>
           </div>
-          <div className="info-row">
+          <div className={styles['info-row']}>
             <label>Member Since:</label>
             <span>{new Date(profile.createdAt).toLocaleDateString()}</span>
           </div>
-          <div className="info-row">
+          <div className={styles['info-row']}>
             <label>Role:</label>
             <span>{profile.role || 'STUDENT'}</span>
           </div>
 
-          <button onClick={() => setEditing(true)} className="btn-primary">
+          <button onClick={() => setEditing(true)} className={styles['btn-primary']}>
             Edit Profile
           </button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="edit-form">
-          <div className="form-group">
+        <form onSubmit={handleSubmit} className={styles['edit-form']}>
+          <div className={styles['form-group']}>
             <label>Name *</label>
             <input
               type="text"
@@ -71,18 +72,18 @@ function UserProfilePanel({
             />
           </div>
 
-          <div className="form-group">
+          <div className={styles['form-group']}>
             <label>Email</label>
             <input
               type="email"
               value={profile.email}
               disabled
-              className="disabled-input"
+              className={styles['disabled-input']}
             />
             <small>Email cannot be changed</small>
           </div>
 
-          <div className="form-group">
+          <div className={styles['form-group']}>
             <label>Profile Picture</label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
               <input
@@ -161,8 +162,8 @@ function UserProfilePanel({
             </div>
           </div>
 
-          <div className="button-group">
-            <button type="submit" className="btn-submit">
+          <div className={styles['button-group']}>
+            <button type="submit" className={styles['btn-submit']}>
               Save Changes
             </button>
             <button
@@ -175,7 +176,7 @@ function UserProfilePanel({
                 });
                 setError('');
               }}
-              className="btn-cancel"
+              className={styles['btn-cancel']}
             >
               Cancel
             </button>

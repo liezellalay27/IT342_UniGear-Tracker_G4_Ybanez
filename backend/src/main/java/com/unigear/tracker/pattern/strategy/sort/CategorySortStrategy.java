@@ -1,6 +1,6 @@
 package com.unigear.tracker.pattern.strategy.sort;
 
-import com.unigear.tracker.entity.Equipment;
+import com.unigear.tracker.features.equipment.entity.Equipment;
 import com.unigear.tracker.pattern.strategy.SortStrategy;
 import java.util.List;
 import java.util.stream.Collectors;

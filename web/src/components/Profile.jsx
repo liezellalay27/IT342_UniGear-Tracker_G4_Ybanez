@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import UserProfilePanel from './Users/UserProfilePanel';
 import styles from './Profile.module.css';
 import logo from '../assets/UniGear Symbol.png';
@@ -13,6 +13,8 @@ function Profile() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
   
   const [formData, setFormData] = useState({
     name: '',
@@ -124,7 +126,7 @@ function Profile() {
 
   if (loading) {
     return (
-      <div className={styles.profileContainer} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+      <div className={styles['profile-container']} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <div className={styles.loading} style={{ color: '#EFBF04', fontSize: '20px', fontWeight: '600' }}>Loading profile...</div>
       </div>
     );
@@ -135,7 +137,7 @@ function Profile() {
     const user = localStorage.getItem('user');
     
     return (
-      <div className={styles.profileContainer} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+      <div className={styles['profile-container']} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <div className={styles.error} style={{ textAlign: 'center', padding: '40px', maxWidth: '600px', background: 'white', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}>
           <h2 style={{ color: '#550000', fontSize: '2rem', marginBottom: '20px' }}>Unable to load profile</h2>
           {error && <p style={{ marginTop: '10px', color: '#d32f2f', background: '#ffebee', padding: '15px', borderRadius: '8px', border: '2px solid #d32f2f' }}>{error}</p>}
@@ -167,27 +169,27 @@ function Profile() {
   }
 
   return (
-    <div className={styles.profileContainer}>
-      <header className={styles.homepageHeader}>
-        <div className={styles.headerContent}>
-          <div className={styles.logoSection}>
-            <img src={logo} alt="Logo" className={styles.headerLogo} />
-            <span className={styles.headerTitle}>UniGear Tracker</span>
+    <div className={styles['profile-container']}>
+      <header className={styles['homepage-header']}>
+        <div className={styles['header-content']}>
+          <div className={styles['logo-section']}>
+            <img src={logo} alt="Logo" className={styles['header-logo']} />
+            <span className={styles['header-title']}>UniGear Tracker</span>
           </div>
-          <div className={styles.navLinks}>
-            <button onClick={() => navigate('/dashboard')} className={styles.navLink}>Dashboard</button>
+          <div className={styles['nav-links']}>
+            <button onClick={() => navigate('/dashboard')} className={`${styles['nav-link']} ${currentPath === '/dashboard' ? styles.active : ''}`}>Catalog</button>
             {profile.role === 'ADMIN' ? (
               <>
-                <button onClick={() => navigate('/admin?tab=equipment')} className={styles.navLink}>Equipment</button>
-                <button onClick={() => navigate('/admin?tab=users')} className={styles.navLink}>Users</button>
-                <button onClick={() => navigate('/admin?tab=borrowed')} className={styles.navLink}>Borrowed</button>
-                <button onClick={() => navigate('/admin?tab=requests')} className={styles.navLink}>Requests</button>
+                <button onClick={() => navigate('/admin?tab=equipment')} className={`${styles['nav-link']} ${currentPath === '/admin' ? styles.active : ''}`}>Equipment</button>
+                <button onClick={() => navigate('/admin?tab=users')} className={`${styles['nav-link']} ${currentPath === '/admin' ? styles.active : ''}`}>Users</button>
+                <button onClick={() => navigate('/admin?tab=borrowed')} className={`${styles['nav-link']} ${currentPath === '/admin' ? styles.active : ''}`}>Borrowed</button>
+                <button onClick={() => navigate('/admin?tab=requests')} className={`${styles['nav-link']} ${currentPath === '/admin' ? styles.active : ''}`}>Requests</button>
               </>
             ) : (
-              <button onClick={() => navigate('/my-requests')} className={styles.navLink}>My Requests</button>
+              <button onClick={() => navigate('/my-requests')} className={`${styles['nav-link']} ${currentPath === '/my-requests' ? styles.active : ''}`}>My Requests</button>
             )}
-            <button onClick={() => navigate('/profile')} className={styles.navLinkActive}>Profile</button>
-            <button onClick={handleLogout} className={styles.logoutBtn}>Logout</button>
+            <button onClick={() => navigate('/profile')} className={`${styles['nav-link']} ${currentPath === '/profile' ? styles.active : ''}`}>Profile</button>
+            <button onClick={handleLogout} className={styles['logout-btn']}>Logout</button>
           </div>
         </div>
       </header>
