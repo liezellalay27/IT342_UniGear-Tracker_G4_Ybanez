@@ -1,4 +1,4 @@
-package com.unigear.tracker.dto;
+package com.unigear.tracker.features.profile.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

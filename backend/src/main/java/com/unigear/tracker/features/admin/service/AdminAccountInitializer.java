@@ -1,7 +1,7 @@
-package com.unigear.tracker.service;
+package com.unigear.tracker.features.admin.service;
 
-import com.unigear.tracker.entity.User;
-import com.unigear.tracker.repository.UserRepository;
+import com.unigear.tracker.features.user.entity.User;
+import com.unigear.tracker.features.user.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

@@ -2,8 +2,10 @@ package com.unigear.tracker;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.unigear.tracker.features", "com.unigear.tracker.pattern", "com.unigear.tracker.config"})
 public class UniGearTrackerApplication {
     
     public static void main(String[] args) {

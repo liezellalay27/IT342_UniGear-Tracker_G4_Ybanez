@@ -1,8 +1,9 @@
-package com.unigear.tracker.controller;
+package com.unigear.tracker.features.profile.controller;
 
-import com.unigear.tracker.dto.ProfileDto;
-import com.unigear.tracker.dto.UpdateProfileDto;
-import com.unigear.tracker.service.ProfileService;
+import com.unigear.tracker.features.profile.dto.ProfileDto;
+import com.unigear.tracker.features.profile.dto.UpdateProfileDto;
+import com.unigear.tracker.features.profile.service.ProfileService;
+import com.unigear.tracker.features.user.entity.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,8 +47,8 @@ public class ProfileController {
         Object principal = authentication.getPrincipal();
         
         // If principal is our User entity (set by JwtAuthenticationFilter)
-        if (principal instanceof com.unigear.tracker.entity.User) {
-            return ((com.unigear.tracker.entity.User) principal).getEmail();
+        if (principal instanceof User) {
+            return ((User) principal).getEmail();
         }
         
         // If principal is UserDetails (from OAuth2 or login)

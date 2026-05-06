@@ -1,11 +1,11 @@
 package com.unigear.tracker.features.auth.service;
 
-import com.unigear.tracker.dto.AuthResponse;
-import com.unigear.tracker.dto.LoginRequest;
-import com.unigear.tracker.dto.RegisterRequest;
-import com.unigear.tracker.entity.User;
-import com.unigear.tracker.repository.UserRepository;
-import com.unigear.tracker.security.JwtUtil;
+import com.unigear.tracker.features.auth.dto.AuthResponse;
+import com.unigear.tracker.features.auth.dto.LoginRequest;
+import com.unigear.tracker.features.auth.dto.RegisterRequest;
+import com.unigear.tracker.features.user.entity.User;
+import com.unigear.tracker.features.user.repository.UserRepository;
+import com.unigear.tracker.features.auth.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

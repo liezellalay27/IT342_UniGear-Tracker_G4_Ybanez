@@ -1,9 +1,9 @@
-package com.unigear.tracker.controller;
+package com.unigear.tracker.features.auth.controller;
 
-import com.unigear.tracker.dto.AuthResponse;
-import com.unigear.tracker.dto.LoginRequest;
-import com.unigear.tracker.dto.RegisterRequest;
-import com.unigear.tracker.service.AuthService;
+import com.unigear.tracker.features.auth.dto.AuthResponse;
+import com.unigear.tracker.features.auth.dto.LoginRequest;
+import com.unigear.tracker.features.auth.dto.RegisterRequest;
+import com.unigear.tracker.features.auth.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;

@@ -1,6 +1,6 @@
-package com.unigear.tracker.dto;
+package com.unigear.tracker.features.admin.dto;
 
-import com.unigear.tracker.entity.User;
+import com.unigear.tracker.features.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.unigear.tracker.dto;
+package com.unigear.tracker.features.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

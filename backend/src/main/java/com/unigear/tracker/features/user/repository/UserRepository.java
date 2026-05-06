@@ -1,6 +1,6 @@
-package com.unigear.tracker.repository;
+package com.unigear.tracker.features.user.repository;
 
-import com.unigear.tracker.entity.User;
+import com.unigear.tracker.features.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

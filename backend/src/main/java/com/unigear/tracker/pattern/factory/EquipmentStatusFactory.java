@@ -1,6 +1,6 @@
 package com.unigear.tracker.pattern.factory;
 
-import com.unigear.tracker.entity.Equipment;
+import com.unigear.tracker.features.equipment.entity.Equipment;
 
 /**
  * Factory Method Pattern Implementation: EquipmentStatusFactory

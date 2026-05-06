@@ -1,8 +1,9 @@
-package com.unigear.tracker.controller;
+package com.unigear.tracker.features.admin.controller;
 
-import com.unigear.tracker.dto.EquipmentRequestDto;
-import com.unigear.tracker.dto.UpdateRequestStatusDto;
-import com.unigear.tracker.service.RequestService;
+import com.unigear.tracker.features.request.dto.EquipmentRequestDto;
+import com.unigear.tracker.features.request.dto.UpdateRequestStatusDto;
+import com.unigear.tracker.features.request.service.RequestService;
+import com.unigear.tracker.features.user.entity.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -80,8 +81,8 @@ public class AdminController {
     private String getUserEmail(Authentication authentication) {
         Object principal = authentication.getPrincipal();
 
-        if (principal instanceof com.unigear.tracker.entity.User) {
-            return ((com.unigear.tracker.entity.User) principal).getEmail();
+        if (principal instanceof User) {
+            return ((User) principal).getEmail();
         }
 
         if (principal instanceof UserDetails) {

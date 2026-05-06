@@ -1,9 +1,9 @@
-package com.unigear.tracker.service;
+package com.unigear.tracker.features.profile.service;
 
-import com.unigear.tracker.dto.ProfileDto;
-import com.unigear.tracker.dto.UpdateProfileDto;
-import com.unigear.tracker.entity.User;
-import com.unigear.tracker.repository.UserRepository;
+import com.unigear.tracker.features.profile.dto.ProfileDto;
+import com.unigear.tracker.features.profile.dto.UpdateProfileDto;
+import com.unigear.tracker.features.user.entity.User;
+import com.unigear.tracker.features.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

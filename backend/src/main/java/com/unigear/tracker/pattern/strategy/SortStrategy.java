@@ -1,6 +1,6 @@
 package com.unigear.tracker.pattern.strategy;
 
-import com.unigear.tracker.entity.Equipment;
+import com.unigear.tracker.features.equipment.entity.Equipment;
 import java.util.List;
 
 /**

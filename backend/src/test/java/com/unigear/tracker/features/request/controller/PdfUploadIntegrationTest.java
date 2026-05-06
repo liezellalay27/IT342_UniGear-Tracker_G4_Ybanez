@@ -1,10 +1,11 @@
 package com.unigear.tracker.features.request.controller;
 
-import com.unigear.tracker.entity.EquipmentRequest;
-import com.unigear.tracker.entity.User;
-import com.unigear.tracker.repository.EquipmentRequestRepository;
-import com.unigear.tracker.repository.UserRepository;
-import com.unigear.tracker.security.JwtUtil;
+import com.unigear.tracker.features.user.entity.User;
+import com.unigear.tracker.features.request.repository.EquipmentRequestRepository;
+import com.unigear.tracker.features.user.repository.UserRepository;
+import com.unigear.tracker.features.equipment.entity.Equipment;
+import com.unigear.tracker.features.equipment.repository.EquipmentRepository;
+import com.unigear.tracker.features.auth.security.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,9 @@ class PdfUploadIntegrationTest {
 
     @Autowired
     private EquipmentRequestRepository equipmentRequestRepository;
+    
+    @Autowired
+    private EquipmentRepository equipmentRepository;
 
     private String userToken;
     private String adminToken;
@@ -50,6 +54,7 @@ class PdfUploadIntegrationTest {
     void setup() {
         // Clean up
         equipmentRequestRepository.deleteAll();
+        equipmentRepository.deleteAll();
         userRepository.deleteAll();
 
         // Create test users
@@ -66,6 +71,67 @@ class PdfUploadIntegrationTest {
         adminUser.setPassword("hashedpassword");
         adminUser.setRole(User.Role.ADMIN);
         adminUser = userRepository.save(adminUser);
+
+        // Create test equipment
+        Equipment laptop = new Equipment();
+        laptop.setName("Laptop");
+        laptop.setCategory("Computing");
+        laptop.setDescription("Laptop computer");
+        laptop.setLocation("Lab 101");
+        laptop.setSpecifications("Intel i7, 16GB RAM");
+        laptop.setTotalQuantity(5);
+        laptop.setAvailableQuantity(5);
+        equipmentRepository.save(laptop);
+
+        Equipment projector = new Equipment();
+        projector.setName("Projector");
+        projector.setCategory("Equipment");
+        projector.setDescription("Media projector");
+        projector.setLocation("Hall 1");
+        projector.setSpecifications("1080p, 3000 lumens");
+        projector.setTotalQuantity(3);
+        projector.setAvailableQuantity(3);
+        equipmentRepository.save(projector);
+
+        Equipment camera = new Equipment();
+        camera.setName("Camera");
+        camera.setCategory("Equipment");
+        camera.setDescription("Digital camera");
+        camera.setLocation("Lab 201");
+        camera.setSpecifications("24MP, 4K video");
+        camera.setTotalQuantity(2);
+        camera.setAvailableQuantity(2);
+        equipmentRepository.save(camera);
+
+        Equipment microphone = new Equipment();
+        microphone.setName("Microphone");
+        microphone.setCategory("Equipment");
+        microphone.setDescription("Audio microphone");
+        microphone.setLocation("Studio");
+        microphone.setSpecifications("Condenser, XLR");
+        microphone.setTotalQuantity(4);
+        microphone.setAvailableQuantity(4);
+        equipmentRepository.save(microphone);
+
+        Equipment speaker = new Equipment();
+        speaker.setName("Speaker");
+        speaker.setCategory("Equipment");
+        speaker.setDescription("Audio speaker");
+        speaker.setLocation("Studio");
+        speaker.setSpecifications("Stereo, 100W");
+        speaker.setTotalQuantity(3);
+        speaker.setAvailableQuantity(3);
+        equipmentRepository.save(speaker);
+
+        Equipment monitor = new Equipment();
+        monitor.setName("Monitor");
+        monitor.setCategory("Equipment");
+        monitor.setDescription("Computer monitor");
+        monitor.setLocation("Lab 102");
+        monitor.setSpecifications("27\" 4K");
+        monitor.setTotalQuantity(6);
+        monitor.setAvailableQuantity(6);
+        equipmentRepository.save(monitor);
 
         // Generate tokens
         userToken = jwtUtil.generateJwtToken(testUser.getEmail());
@@ -89,7 +155,7 @@ class PdfUploadIntegrationTest {
         LocalDate returnDate = borrowDate.plusDays(7);
 
         // Act & Assert
-        MvcResult result = mockMvc.perform(multipart("/api/requests")
+        mockMvc.perform(multipart("/api/requests")
                 .file(pdfFile)
                 .param("equipmentName", "Laptop")
                 .param("category", "Computing")
@@ -97,6 +163,10 @@ class PdfUploadIntegrationTest {
                 .param("quantity", "1")
                 .param("borrowDate", borrowDate.toString())
                 .param("returnDate", returnDate.toString())
+                .param("studentName", "Test User")
+                .param("schoolIdNumber", "17-0635-488")
+                .param("yearLevel", "2nd Year")
+                .param("course", "BS Computer Science")
                 .header("Authorization", "Bearer " + userToken)
                 .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isCreated())
@@ -123,6 +193,10 @@ class PdfUploadIntegrationTest {
                 .param("quantity", "1")
                 .param("borrowDate", borrowDate.toString())
                 .param("returnDate", returnDate.toString())
+                .param("studentName", "Test User")
+                .param("schoolIdNumber", "17-0635-488")
+                .param("yearLevel", "2nd Year")
+                .param("course", "BS Computer Science")
                 .header("Authorization", "Bearer " + userToken)
                 .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isCreated())
@@ -158,6 +232,10 @@ class PdfUploadIntegrationTest {
                 .param("quantity", "2")
                 .param("borrowDate", borrowDate.toString())
                 .param("returnDate", returnDate.toString())
+                .param("studentName", "Test User")
+                .param("schoolIdNumber", "17-0635-488")
+                .param("yearLevel", "2nd Year")
+                .param("course", "BS Computer Science")
                 .header("Authorization", "Bearer " + userToken)
                 .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isBadRequest())
@@ -190,6 +268,10 @@ class PdfUploadIntegrationTest {
                 .param("quantity", "1")
                 .param("borrowDate", borrowDate.toString())
                 .param("returnDate", returnDate.toString())
+                .param("studentName", "Test User")
+                .param("schoolIdNumber", "17-0635-488")
+                .param("yearLevel", "2nd Year")
+                .param("course", "BS Computer Science")
                 .header("Authorization", "Bearer " + userToken)
                 .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isCreated())
@@ -233,6 +315,10 @@ class PdfUploadIntegrationTest {
                 .param("quantity", "3")
                 .param("borrowDate", borrowDate.toString())
                 .param("returnDate", returnDate.toString())
+                .param("studentName", "Test User")
+                .param("schoolIdNumber", "17-0635-488")
+                .param("yearLevel", "2nd Year")
+                .param("course", "BS Computer Science")
                 .header("Authorization", "Bearer " + userToken)
                 .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isCreated())
@@ -275,6 +361,10 @@ class PdfUploadIntegrationTest {
                 .param("quantity", "2")
                 .param("borrowDate", borrowDate.toString())
                 .param("returnDate", returnDate.toString())
+                .param("studentName", "Test User")
+                .param("schoolIdNumber", "17-0635-488")
+                .param("yearLevel", "2nd Year")
+                .param("course", "BS Computer Science")
                 .header("Authorization", "Bearer " + userToken)
                 .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isCreated())
@@ -338,6 +428,10 @@ class PdfUploadIntegrationTest {
                 .param("quantity", "1")
                 .param("borrowDate", borrowDate.toString())
                 .param("returnDate", returnDate.toString())
+                .param("studentName", "Test User")
+                .param("schoolIdNumber", "17-0635-488")
+                .param("yearLevel", "2nd Year")
+                .param("course", "BS Computer Science")
                 .header("Authorization", "Bearer " + userToken)
                 .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isPayloadTooLarge())
@@ -351,7 +445,7 @@ class PdfUploadIntegrationTest {
         // Minimal valid PDF header
         return new byte[]{
                 0x25, 0x50, 0x44, 0x46, 0x2D, 0x31, 0x2E, 0x34, // %PDF-1.4
-                0x0A, 0x25, 0xE2, 0xE3, 0xCF, 0xD3, 0x0A       // Line with binary data
+                0x0A, 0x25, (byte)0xE2, (byte)0xE3, (byte)0xCF, (byte)0xD3, 0x0A       // Line with binary data
         };
     }
 

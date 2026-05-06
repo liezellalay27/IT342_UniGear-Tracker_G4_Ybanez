@@ -1,4 +1,4 @@
-package com.unigear.tracker.entity;
+package com.unigear.tracker.features.user.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
