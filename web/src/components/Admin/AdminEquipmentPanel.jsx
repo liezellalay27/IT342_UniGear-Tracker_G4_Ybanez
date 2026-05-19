@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import styles from './Admin.module.css';
 
 const API_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api';
 
@@ -207,46 +208,46 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
   };
 
   return (
-    <section className="admin-panel-card">
+    <section className={styles.adminPanelCard}>
       <h2>Admin Control Center</h2>
-      <p className="admin-subtitle">Manage inventory, users, borrow records, and approval decisions.</p>
+      <p className={styles.adminSubtitle}>Manage inventory, users, borrow records, and approval decisions.</p>
 
-      {error && <div className="error-message">{error}</div>}
-      {success && <div className="success-message">{success}</div>}
+      {error && <div className={styles.errorMessage}>{error}</div>}
+      {success && <div className={styles.successMessage}>{success}</div>}
 
       {showTabs && (
-        <div className="admin-tabs">
+        <div className={styles.adminTabs}>
           <button
             type="button"
-            className={`admin-tab ${activeTab === 'overview' ? 'active' : ''}`}
+            className={`${styles.adminTab} ${activeTab === 'overview' ? styles.active : ''}`}
             onClick={() => onTabChange('overview')}
           >
             Overview
           </button>
           <button
             type="button"
-            className={`admin-tab ${activeTab === 'equipment' ? 'active' : ''}`}
+            className={`${styles.adminTab} ${activeTab === 'equipment' ? styles.active : ''}`}
             onClick={() => onTabChange('equipment')}
           >
             Equipment Management
           </button>
           <button
             type="button"
-            className={`admin-tab ${activeTab === 'users' ? 'active' : ''}`}
+            className={`${styles.adminTab} ${activeTab === 'users' ? styles.active : ''}`}
             onClick={() => onTabChange('users')}
           >
             User Management
           </button>
           <button
             type="button"
-            className={`admin-tab ${activeTab === 'borrowed' ? 'active' : ''}`}
+            className={`${styles.adminTab} ${activeTab === 'borrowed' ? styles.active : ''}`}
             onClick={() => onTabChange('borrowed')}
           >
             Borrowed Equipment
           </button>
           <button
             type="button"
-            className={`admin-tab ${activeTab === 'requests' ? 'active' : ''}`}
+            className={`${styles.adminTab} ${activeTab === 'requests' ? styles.active : ''}`}
             onClick={() => onTabChange('requests')}
           >
             Requests ({pendingRequests.length})
@@ -254,74 +255,77 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
         </div>
       )}
 
-      {loading && <div className="loading">Loading admin data...</div>}
+      {loading && (() => {
+        const LoadingSpinner = require('../LoadingSpinner').default;
+        return <LoadingSpinner message="Loading admin data..." showTimer={false} />;
+      })()}
 
       {!loading && activeTab === 'overview' && (
         <>
-          <div className="admin-overview-grid">
-            <div className="admin-kpi-card kpi-alert">
-              <div className="kpi-label">Pending Requests</div>
-              <div className="kpi-value">{pendingRequests.length}</div>
-              <div className="kpi-meta">Needs approval decisions</div>
+          <div className={styles.adminOverviewGrid}>
+            <div className={`${styles.adminKpiCard} ${styles.kpiAlert}`}>
+              <div className={styles.kpiLabel}>Pending Requests</div>
+              <div className={styles.kpiValue}>{pendingRequests.length}</div>
+              <div className={styles.kpiMeta}>Needs approval decisions</div>
             </div>
-            <div className="admin-kpi-card kpi-neutral">
-              <div className="kpi-label">Active Borrowed</div>
-              <div className="kpi-value">{activeBorrowed.length}</div>
-              <div className="kpi-meta">Currently out with users</div>
+            <div className={`${styles.adminKpiCard} ${styles.kpiNeutral}`}>
+              <div className={styles.kpiLabel}>Active Borrowed</div>
+              <div className={styles.kpiValue}>{activeBorrowed.length}</div>
+              <div className={styles.kpiMeta}>Currently out with users</div>
             </div>
-            <div className="admin-kpi-card kpi-warning">
-              <div className="kpi-label">Low Stock Items</div>
-              <div className="kpi-value">{lowStockItems.length}</div>
-              <div className="kpi-meta">Available quantity 2 or below</div>
+            <div className={`${styles.adminKpiCard} ${styles.kpiWarning}`}>
+              <div className={styles.kpiLabel}>Low Stock Items</div>
+              <div className={styles.kpiValue}>{lowStockItems.length}</div>
+              <div className={styles.kpiMeta}>Available quantity 2 or below</div>
             </div>
-            <div className="admin-kpi-card kpi-danger">
-              <div className="kpi-label">Overdue Returns</div>
-              <div className="kpi-value">{overdueBorrowed.length}</div>
-              <div className="kpi-meta">Borrowed past due date</div>
+            <div className={`${styles.adminKpiCard} ${styles.kpiDanger}`}>
+              <div className={styles.kpiLabel}>Overdue Returns</div>
+              <div className={styles.kpiValue}>{overdueBorrowed.length}</div>
+              <div className={styles.kpiMeta}>Borrowed past due date</div>
             </div>
           </div>
 
-          <div className="admin-overview-actions">
-            <button type="button" className="btn-primary" onClick={() => onTabChange('requests')}>
+          <div className={styles.adminOverviewActions}>
+            <button type="button" className={styles.btnPrimary} onClick={() => onTabChange('requests')}>
               Review Pending Requests
             </button>
-            <button type="button" className="btn-cancel" onClick={() => onTabChange('borrowed')}>
+            <button type="button" className={styles.btnCancel} onClick={() => onTabChange('borrowed')}>
               Check Borrowed Records
             </button>
-            <button type="button" className="btn-cancel" onClick={() => onTabChange('equipment')}>
+            <button type="button" className={styles.btnCancel} onClick={() => onTabChange('equipment')}>
               Manage Inventory
             </button>
           </div>
 
-          <div className="admin-overview-panels">
-            <div className="admin-overview-panel">
+          <div className={styles.adminOverviewPanels}>
+            <div className={styles.adminOverviewPanel}>
               <h3>Urgent Pending Requests</h3>
               {recentPending.length === 0 ? (
-                <div className="no-admin-items">No pending requests right now.</div>
+                <div className={styles.noAdminItems}>No pending requests right now.</div>
               ) : (
-                <div className="admin-mini-list">
+                <div className={styles.adminMiniList}>
                   {recentPending.map((item) => (
-                    <div className="admin-mini-item" key={item.id}>
-                      <div className="admin-item-title">{item.equipmentName}</div>
-                      <div className="admin-item-meta">{item.requesterName || '-'} | Qty: {item.quantity}</div>
-                      <div className="admin-item-meta">Borrow: {item.borrowDate || '-'} | Return: {item.returnDate || '-'}</div>
+                    <div className={styles.adminMiniItem} key={item.id}>
+                      <div className={styles.adminItemTitle}>{item.equipmentName}</div>
+                      <div className={styles.adminItemMeta}>{item.requesterName || '-'} | Qty: {item.quantity}</div>
+                      <div className={styles.adminItemMeta}>Borrow: {item.borrowDate || '-'} | Return: {item.returnDate || '-'}</div>
                     </div>
                   ))}
                 </div>
               )}
             </div>
 
-            <div className="admin-overview-panel">
+            <div className={styles.adminOverviewPanel}>
               <h3>Low Stock Watchlist</h3>
               {lowStockItems.length === 0 ? (
-                <div className="no-admin-items">No low stock equipment.</div>
+                <div className={styles.noAdminItems}>No low stock equipment.</div>
               ) : (
-                <div className="admin-mini-list">
+                <div className={styles.adminMiniList}>
                   {lowStockItems.slice(0, 6).map((item) => (
-                    <div className="admin-mini-item" key={item.id}>
-                      <div className="admin-item-title">{item.name}</div>
-                      <div className="admin-item-meta">{item.category}</div>
-                      <div className="admin-item-meta">Available: {item.availableQuantity}/{item.totalQuantity}</div>
+                    <div className={styles.adminMiniItem} key={item.id}>
+                      <div className={styles.adminItemTitle}>{item.name}</div>
+                      <div className={styles.adminItemMeta}>{item.category}</div>
+                      <div className={styles.adminItemMeta}>Available: {item.availableQuantity}/{item.totalQuantity}</div>
                     </div>
                   ))}
                 </div>
@@ -333,8 +337,8 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
 
       {!loading && activeTab === 'equipment' && (
         <>
-          <form onSubmit={handleSubmit} className="admin-form-grid">
-            <div className="form-group">
+          <form onSubmit={handleSubmit} className={styles.adminFormGrid}>
+            <div className={styles.formGroup}>
               <label>Name *</label>
               <input
                 type="text"
@@ -344,7 +348,7 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
               />
             </div>
 
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label>Category *</label>
               <input
                 type="text"
@@ -354,7 +358,7 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
               />
             </div>
 
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label>Location *</label>
               <input
                 type="text"
@@ -364,7 +368,7 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
               />
             </div>
 
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label>Status</label>
               <select
                 value={formData.status}
@@ -376,7 +380,7 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
               </select>
             </div>
 
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label>Total Quantity *</label>
               <input
                 type="number"
@@ -387,7 +391,7 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
               />
             </div>
 
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label>Available Quantity *</label>
               <input
                 type="number"
@@ -398,7 +402,7 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
               />
             </div>
 
-            <div className="form-group admin-form-full">
+            <div className={`${styles.formGroup} ${styles.adminFormFull}`}>
               <label>Description *</label>
               <textarea
                 rows="3"
@@ -408,7 +412,7 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
               />
             </div>
 
-            <div className="form-group admin-form-full">
+            <div className={`${styles.formGroup} ${styles.adminFormFull}`}>
               <label>Specifications (one per line) *</label>
               <textarea
                 rows="4"
@@ -418,25 +422,25 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
               />
             </div>
 
-            <div className="admin-form-full">
-              <button type="submit" className="btn-primary">Add Equipment</button>
+            <div className={styles.adminFormFull}>
+              <button type="submit" className={styles.btnPrimary}>Add Equipment</button>
             </div>
           </form>
 
-          <div className="admin-list-header">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <h3>Current Equipment</h3>
-            <button type="button" className="btn-cancel" onClick={fetchEquipment}>Refresh</button>
+            <button type="button" className={styles.btnCancel} onClick={fetchEquipment}>Refresh</button>
           </div>
 
           {equipment.length === 0 ? (
-            <div className="no-admin-items">No equipment yet.</div>
+            <div className={styles.noAdminItems}>No equipment yet.</div>
           ) : (
-            <div className="admin-equipment-grid">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
               {equipment.map((item) => (
-                <div key={item.id} className="admin-equipment-item">
-                  <div className="admin-item-title">{item.name}</div>
-                  <div className="admin-item-meta">{item.category} - {item.location}</div>
-                  <div className="admin-item-meta">Status: {item.status} | Available: {item.availableQuantity}/{item.totalQuantity}</div>
+                <div key={item.id} className={styles.adminMiniItem}>
+                  <div className={styles.adminItemTitle}>{item.name}</div>
+                  <div className={styles.adminItemMeta}>{item.category} - {item.location}</div>
+                  <div className={styles.adminItemMeta}>Status: {item.status} | Available: {item.availableQuantity}/{item.totalQuantity}</div>
                 </div>
               ))}
             </div>
@@ -445,8 +449,8 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
       )}
 
       {!loading && activeTab === 'users' && (
-        <div className="admin-table-wrap">
-          <table className="admin-table">
+        <div style={{ overflowX: 'auto' }}>
+          <table className={styles.adminTable}>
             <thead>
               <tr>
                 <th>Name</th>
@@ -478,8 +482,8 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
       )}
 
       {!loading && activeTab === 'borrowed' && (
-        <div className="admin-table-wrap">
-          <table className="admin-table">
+        <div style={{ overflowX: 'auto' }}>
+          <table className={styles.adminTable}>
             <thead>
               <tr>
                 <th>Borrower</th>
@@ -514,28 +518,28 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
                       {item.eventApprovalPdf ? (
                         <button
                           type="button"
-                          className="btn-download-pdf-small"
+                          className={styles.btnDownloadPdfSmall}
                           onClick={() => handleDownloadPdf(item.id)}
                         >
                           📥 View
                         </button>
                       ) : (
-                        <span className="no-pdf">-</span>
+                        <span className={styles.noPdf}>-</span>
                       )}
                     </td>
                     <td>
                       {item.status === 'APPROVED' ? (
-                        <div className="admin-inline-actions">
+                        <div className={styles.adminInlineActions}>
                           <button
                             type="button"
-                            className="btn-primary btn-inline"
+                            className={`${styles.btnPrimary} ${styles.btnInline}`}
                             onClick={() => handleRequestDecision(item.id, 'COMPLETED', true)}
                           >
                             Returned On Time
                           </button>
                           <button
                             type="button"
-                            className="btn-cancel btn-inline"
+                            className={`${styles.btnCancel} ${styles.btnInline}`}
                             onClick={() => handleRequestDecision(item.id, 'COMPLETED', false)}
                           >
                             Returned Late
@@ -560,21 +564,21 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
       )}
 
       {!loading && activeTab === 'requests' && (
-        <div className="admin-request-list">
-          {pendingRequests.length === 0 ? (
-            <div className="no-admin-items">No pending requests.</div>
+        <div className={styles.adminRequestList}>
+          {requests.length === 0 ? (
+            <div className={styles.noAdminItems}>No pending requests.</div>
           ) : (
             pendingRequests.map((item) => (
-              <div className="admin-request-card" key={item.id}>
-                <div className="admin-request-head">
+              <div className={styles.adminRequestCard} key={item.id}>
+                <div className={styles.adminRequestHead}>
                   <div>
-                    <div className="admin-item-title">{item.equipmentName}</div>
-                    <div className="admin-item-meta">{item.requesterName || '-'} ({item.requesterEmail || '-'})</div>
+                    <div className={styles.adminItemTitle}>{item.equipmentName}</div>
+                    <div className={styles.adminItemMeta}>{item.requesterName || '-'} ({item.requesterEmail || '-'})</div>
                   </div>
-                  <span className="role-badge student">{item.status}</span>
+                  <span className={`${styles.roleBadge} ${styles.roleBadgeStudent}`}>{item.status}</span>
                 </div>
 
-                <div className="admin-request-grid">
+                <div className={styles.adminRequestGrid}>
                   <div>Category: {item.category}</div>
                   <div>Quantity: {item.quantity}</div>
                   <div>Requested: {item.createdAt ? new Date(item.createdAt).toLocaleString() : '-'}</div>
@@ -582,7 +586,7 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
                   <div>Return Date: {item.returnDate ? new Date(item.returnDate).toLocaleDateString() : '-'}</div>
                 </div>
 
-                {item.description && <p className="admin-request-desc">Purpose: {item.description}</p>}
+                {item.description && <p className={styles.adminRequestDesc}>Purpose: {item.description}</p>}
 
                 <textarea
                   rows="2"
@@ -591,17 +595,17 @@ function AdminEquipmentPanel({ activeTab = 'equipment', showTabs = true, onTabCh
                   onChange={(e) => setDecisionNotes((prev) => ({ ...prev, [item.id]: e.target.value }))}
                 />
 
-                <div className="admin-request-actions">
+                <div className={styles.adminRequestActions}>
                   <button
                     type="button"
-                    className="btn-primary"
+                    className={styles.btnPrimary}
                     onClick={() => handleRequestDecision(item.id, 'APPROVED')}
                   >
                     Approve
                   </button>
                   <button
                     type="button"
-                    className="btn-cancel"
+                    className={styles.btnCancel}
                     onClick={() => handleRequestDecision(item.id, 'REJECTED')}
                   >
                     Deny

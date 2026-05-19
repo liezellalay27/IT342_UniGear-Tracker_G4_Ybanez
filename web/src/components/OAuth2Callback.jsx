@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './Auth.css';
 
 const API_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api';
 
