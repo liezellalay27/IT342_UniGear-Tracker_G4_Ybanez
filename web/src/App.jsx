@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Register from './components/Register.jsx';
 import Login from './components/Login.jsx';
 import OAuth2Callback from './components/OAuth2Callback.jsx';
-import HomepageCatalog from './components/HomepageCatalog.jsx';
+import HomepageCatalog from './components/Users/HomepageCatalog.jsx';
 import EquipmentDetail from './components/EquipmentDetail.jsx';
-import MyRequests from './components/MyRequests.jsx';
-import Profile from './components/Profile.jsx';
+import MyRequests from './components/Users/MyRequests.jsx';
+import Profile from './components/Users/Profile.jsx';
 import AdminDashboard from './components/Admin/AdminDashboard.jsx';
 import './adminStyles.css';
 import { getCurrentUser, isAuthenticated } from './services/authService';
