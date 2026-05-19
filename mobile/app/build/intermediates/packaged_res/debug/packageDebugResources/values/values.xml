@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="status_available_text">#2E7D32</color>
+    <color name="status_inuse_text">#F57C00</color>
+    <color name="ug_gold">#EFBF04</color>
+    <color name="ug_gold_accent">#FFD700</color>
+    <color name="ug_gold_dark">#D4A60A</color>
+    <color name="ug_gold_light">#F5D76E</color>
+    <color name="ug_maroon">#550000</color>
+    <color name="ug_maroon_dark">#3D0000</color>
+    <color name="ug_near_black">#222222</color>
+    <color name="ug_off_white">#FAF9F6</color>
+    <color name="ug_white">#FFFFFF</color>
+    <string name="app_name">UniGear Tracker</string>
+    <style name="Theme.UniGearMobile" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/ug_maroon</item>
+        <item name="colorPrimaryVariant">@color/ug_maroon_dark</item>
+        <item name="colorOnPrimary">@color/ug_white</item>
+
+        <item name="colorSecondary">@color/ug_gold</item>
+        <item name="colorSecondaryVariant">@color/ug_gold</item>
+        <item name="colorOnSecondary">@color/ug_maroon</item>
+
+        <item name="colorSurface">@color/ug_off_white</item>
+        <item name="colorOnSurface">@color/ug_near_black</item>
+        <item name="colorAccent">@color/ug_gold</item>
+
+        <item name="android:statusBarColor">@color/ug_maroon</item>
+        <item name="android:navigationBarColor">@color/ug_maroon</item>
+    </style>
+</resources>

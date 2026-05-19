@@ -9,6 +9,9 @@ import com.unigear.tracker.entity.User;
 import com.unigear.tracker.repository.EquipmentRepository;
 import com.unigear.tracker.repository.EquipmentRequestRepository;
 import com.unigear.tracker.repository.UserRepository;
+import com.unigear.tracker.pattern.factory.RequestValidatorFactory;
+import com.unigear.tracker.pattern.observer.EventPublisher;
+import com.unigear.tracker.pattern.observer.SystemEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +33,35 @@ public class RequestService {
 
     @Autowired
     private EquipmentRepository equipmentRepository;
+    
+    @Autowired
+    private EventPublisher eventPublisher;
+    
+    /**
+     * Centralized validation using RequestValidatorFactory
+     * Validates all request components (dates, student info, PDF)
+     */
+    private void validateRequestWithFactory(
+            java.time.LocalDate borrowDate,
+            java.time.LocalDate returnDate,
+            String studentName,
+            String schoolIdNumber,
+            String yearLevel,
+            String course,
+            MultipartFile pdfFile) throws RuntimeException {
+        try {
+            // Create validators using factory
+            List<com.unigear.tracker.pattern.factory.interfaces.RequestValidator> validators =
+                RequestValidatorFactory.createRequestValidators(
+                    borrowDate, returnDate, studentName, schoolIdNumber,
+                    yearLevel, course, pdfFile
+                );
+            // Execute all validators
+            RequestValidatorFactory.validateAll(validators);
+        } catch (Exception e) {
+            throw new RuntimeException("Validation failed: " + e.getMessage());
+        }
+    }
     
     private byte[] extractPdfContent(MultipartFile file) throws IOException {
         if (file == null || file.isEmpty()) {
@@ -91,15 +123,16 @@ public class RequestService {
         java.time.LocalDate borrowDate = java.time.LocalDate.parse(borrowDateStr);
         java.time.LocalDate returnDate = java.time.LocalDate.parse(returnDateStr);
 
-        if (borrowDate.isBefore(java.time.LocalDate.now())) {
-            throw new RuntimeException("Borrow date cannot be in the past");
-        }
-
-        if (returnDate.isBefore(borrowDate)) {
-            throw new RuntimeException("Return date must be on or after borrow date");
-        }
-
-        validateStudentInfo(studentName, schoolIdNumber, yearLevel, course);
+        // Use factory-based validation - single method call validates everything
+        validateRequestWithFactory(
+            borrowDate,
+            returnDate,
+            studentName,
+            schoolIdNumber,
+            yearLevel,
+            course,
+            eventApprovalPdf
+        );
 
         Equipment equipment = equipmentRepository.findByNameIgnoreCase(equipmentName)
             .orElseThrow(() -> new RuntimeException("Equipment not found in catalog"));
@@ -152,15 +185,16 @@ public class RequestService {
         User user = userRepository.findByEmail(userEmail)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (dto.getBorrowDate().isBefore(java.time.LocalDate.now())) {
-            throw new RuntimeException("Borrow date cannot be in the past");
-        }
-
-        if (dto.getReturnDate().isBefore(dto.getBorrowDate())) {
-            throw new RuntimeException("Return date must be on or after borrow date");
-        }
-
-        validateStudentInfo(dto.getStudentName(), dto.getSchoolIdNumber(), dto.getYearLevel(), dto.getCourse());
+        // Use factory-based validation
+        validateRequestWithFactory(
+            dto.getBorrowDate(),
+            dto.getReturnDate(),
+            dto.getStudentName(),
+            dto.getSchoolIdNumber(),
+            dto.getYearLevel(),
+            dto.getCourse(),
+            null  // No PDF in DTO version
+        );
 
         Equipment equipment = equipmentRepository.findByNameIgnoreCase(dto.getEquipmentName())
             .orElseThrow(() -> new RuntimeException("Equipment not found in catalog"));
@@ -339,6 +373,34 @@ public class RequestService {
         }
 
         EquipmentRequest updated = requestRepository.save(request);
+        
+        // Publish events based on status change
+        if (nextStatus == EquipmentRequest.RequestStatus.APPROVED) {
+            SystemEvent approvalEvent = SystemEvent.builder()
+                .eventType(SystemEvent.EventType.REQUEST_APPROVED)
+                .source("RequestService")
+                .targetId(requestId)
+                .targetType("REQUEST")
+                .actor(adminEmail)
+                .description("Request " + requestId + " approved by admin")
+                .build();
+            approvalEvent.addMetadata("equipmentName", updated.getEquipmentName());
+            approvalEvent.addMetadata("quantity", updated.getQuantity());
+            approvalEvent.addMetadata("studentName", updated.getStudentName());
+            eventPublisher.publish(approvalEvent);
+        } else if (nextStatus == EquipmentRequest.RequestStatus.REJECTED) {
+            SystemEvent rejectionEvent = SystemEvent.builder()
+                .eventType(SystemEvent.EventType.REQUEST_REJECTED)
+                .source("RequestService")
+                .targetId(requestId)
+                .targetType("REQUEST")
+                .actor(adminEmail)
+                .description("Request " + requestId + " rejected")
+                .build();
+            rejectionEvent.addMetadata("rejectionReason", notes != null ? notes : "No reason provided");
+            eventPublisher.publish(rejectionEvent);
+        }
+        
         return EquipmentRequestDto.fromEntity(updated);
     }
 

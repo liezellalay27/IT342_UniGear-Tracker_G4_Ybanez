@@ -1,0 +1,634 @@
+/* Equipment Detail Styles */
+
+.detail-container {
+  min-height: 100vh;
+  background: #f5f5f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Navigation Header */
+.detail-header {
+  background: white;
+  padding: 20px 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.detail-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+/* Back Button */
+.back-button {
+  background: transparent;
+  border: none;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  margin-bottom: 30px;
+  transition: color 0.3s ease;
+}
+
+.back-button:hover {
+  color: #550000;
+}
+
+.back-button svg {
+  transition: transform 0.3s ease;
+}
+
+.back-button:hover svg {
+  transform: translateX(-4px);
+}
+
+/* Detail Card */
+.detail-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.detail-image-section {
+  background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-image-placeholder {
+  font-size: 120px;
+  font-weight: 900;
+  color: #550000;
+  opacity: 0.3;
+}
+
+/* Image Gallery */
+.detail-image-gallery {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.gallery-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.gallery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.gallery-main:hover .gallery-image {
+  transform: scale(1.02);
+}
+
+.gallery-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-main:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.gallery-credit {
+  color: white;
+  font-size: 13px;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-credit:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.gallery-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: white;
+  border-top: 1px solid #e0e0e0;
+}
+
+.gallery-nav-btn {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.gallery-nav-btn:hover {
+  background: #550000;
+  color: white;
+  border-color: #550000;
+}
+
+.gallery-thumbnails {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  overflow-x: auto;
+  padding: 0 4px;
+}
+
+.gallery-thumbnails::-webkit-scrollbar {
+  height: 4px;
+}
+
+.gallery-thumbnails::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.gallery-thumbnails::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 2px;
+}
+
+.gallery-thumbnails::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  background: white;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail:hover {
+  border-color: #550000;
+}
+
+.thumbnail.active {
+  border-color: #550000;
+  box-shadow: 0 0 8px rgba(85, 0, 0, 0.2);
+}
+
+.detail-info-section {
+  padding: 40px;
+}
+
+/* Status Badge */
+.detail-status-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-status-badge.available {
+  background: #550000;
+  color: white;
+}
+
+.detail-status-badge.in-use {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.detail-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.availability-text {
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.detail-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.detail-location svg {
+  color: #550000;
+}
+
+.detail-description {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+/* Specifications Section */
+.specifications-section {
+  margin-bottom: 32px;
+}
+
+.specifications-section h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.specifications-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.specifications-list li {
+  padding: 12px 0;
+  padding-left: 24px;
+  color: #666;
+  font-size: 15px;
+  position: relative;
+}
+
+.specifications-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #550000;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+/* Request Button */
+.request-button {
+  width: 100%;
+  background: #550000;
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: capitalize;
+  margin-top: 24px;
+}
+
+.request-button:hover:not(:disabled) {
+  background: #7a0000;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(85, 0, 0, 0.3);
+}
+
+.request-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Calendar Section */
+.calendar-section {
+  margin-top: 40px;
+  margin-bottom: 32px;
+  padding-top: 32px;
+  border-top: 2px solid #e0e0e0;
+}
+
+.calendar-section h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.calendar-description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.calendar-container {
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-month {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  min-width: 180px;
+  text-align: center;
+}
+
+.calendar-nav-btn {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.calendar-nav-btn:hover {
+  background: #550000;
+  color: white;
+  border-color: #550000;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.weekday {
+  text-align: center;
+  font-weight: 700;
+  color: #550000;
+  font-size: 13px;
+  padding: 8px 0;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.2s ease;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-day:hover:not(:disabled) {
+  border-color: #550000;
+  background: #fff8f8;
+}
+
+.calendar-day.empty {
+  background: transparent;
+  border: none;
+  cursor: default;
+}
+
+.calendar-day.borrowed {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+.calendar-day.borrowed:hover {
+  background: #f5f5f5;
+  border-color: #ddd;
+}
+
+.calendar-day.selected {
+  background: #ffe0e0;
+  border-color: #550000;
+  color: #550000;
+}
+
+.calendar-day.start-date,
+.calendar-day.end-date {
+  background: #550000;
+  color: white;
+  border-color: #550000;
+}
+
+.calendar-selection-info {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.calendar-selection-info p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.calendar-selection-info .duration {
+  color: #550000;
+  font-weight: 600;
+}
+
+.btn-clear-dates {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #666;
+  margin-top: 12px;
+  transition: all 0.3s ease;
+}
+
+.btn-clear-dates:hover {
+  background: #f5f5f5;
+  border-color: #999;
+}
+
+.calendar-legend {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+}
+
+.legend-color.available {
+  background: white;
+  border-color: #ddd;
+}
+
+.legend-color.borrowed {
+  background: #f5f5f5;
+  border-color: #ddd;
+}
+
+.legend-color.selected {
+  background: #ffe0e0;
+  border-color: #550000;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .detail-header {
+    padding: 15px 20px;
+  }
+
+  .detail-main {
+    padding: 20px;
+  }
+
+  .detail-image-section {
+    height: 250px;
+  }
+
+  .detail-image-placeholder {
+    font-size: 80px;
+  }
+
+  .gallery-thumbnails {
+    gap: 6px;
+  }
+
+  .thumbnail {
+    width: 50px;
+    height: 50px;
+  }
+
+  .gallery-controls {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .gallery-nav-btn {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  .detail-info-section {
+    padding: 24px;
+  }
+
+  .detail-title {
+    font-size: 24px;
+  }
+
+  .availability-text {
+    font-size: 16px;
+  }
+
+  /* Calendar responsive */
+  .calendar-section {
+    margin-top: 30px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+  }
+
+  .calendar-container {
+    padding: 16px;
+  }
+
+  .calendar-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .calendar-month {
+    font-size: 16px;
+    min-width: auto;
+  }
+
+  .calendar-nav-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .weekday {
+    font-size: 11px;
+  }
+
+  .calendar-day {
+    font-size: 12px;
+  }
+
+  .calendar-legend {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .request-button {
+    padding: 14px;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+}

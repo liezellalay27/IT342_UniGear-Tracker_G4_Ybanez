@@ -1,0 +1,142 @@
+[
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_button_background.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/button_background.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_unigear_symbol.png.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/unigear_symbol.png"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/layout_activity_equipment_detail.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/layout/activity_equipment_detail.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/layout_activity_register.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/layout/activity_register.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/layout_item_equipment_card.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/layout/item_equipment_card.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_ic_filter_outline.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/ic_filter_outline.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_status_inuse_bg.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/status_inuse_bg.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_auth_error_bg.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/auth_error_bg.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_home_card_shell.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/home_card_shell.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_home_chip_active.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/home_chip_active.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/layout_activity_splash.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/layout/activity_splash.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_splash_card_bg.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/splash_card_bg.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_ic_launcher.png.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/ic_launcher.png"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/layout_activity_home.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/layout/activity_home.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_home_soft_square.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/home_soft_square.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_auth_primary_button.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/auth_primary_button.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/layout_item_request_card.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/layout/item_request_card.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/layout_activity_profile.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/layout/activity_profile.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_home_chip_inactive.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/home_chip_inactive.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_ic_google_logo.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/ic_google_logo.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/layout_activity_login.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_home_nav_button.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/home_nav_button.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/layout_activity_my_requests.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/layout/activity_my_requests.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_unigear_symbol_and_name.png.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/unigear_symbol_and_name.png"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_status_available_bg.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/status_available_bg.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_bg_gold_gradient.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/bg_gold_gradient.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_auth_input_bg.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/auth_input_bg.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_auth_google_button.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/auth_google_button.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_auth_success_bg.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/auth_success_bg.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_splash_logo_glow.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/splash_logo_glow.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_logo_badge.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/logo_badge.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_home_search_bg.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/home_search_bg.xml"
+    },
+    {
+        "merged": "com.unigear.tracker.mobile.app-debug-31:/drawable_profile_picture_placeholder.xml.flat",
+        "source": "com.unigear.tracker.mobile.app-main-33:/drawable/profile_picture_placeholder.xml"
+    }
+]
