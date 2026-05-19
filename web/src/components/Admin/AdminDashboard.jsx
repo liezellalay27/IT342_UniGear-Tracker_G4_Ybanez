@@ -21,26 +21,26 @@ function AdminDashboard() {
   };
 
   return (
-    <div className="profile-container">
-      <header className="homepage-header">
-        <div className="header-content">
-          <div className="logo-section">
-            <img src={logo} alt="Logo" className="header-logo" />
-            <span className="header-title">UniGear Tracker</span>
+    <div className={styles['profile-container']}>
+      <header className={styles['homepage-header']}>
+        <div className={styles['header-content']}>
+          <div className={styles['logo-section']}>
+            <img src={logo} alt="Logo" className={styles['header-logo']} />
+            <span className={styles['header-title']}>UniGear Tracker</span>
           </div>
-          <div className="nav-links">
-            <button onClick={() => goToTab('overview')} className={`nav-link ${activeTab === 'overview' ? 'active' : ''}`}>Overview</button>
-            <button onClick={() => goToTab('equipment')} className={`nav-link ${activeTab === 'equipment' ? 'active' : ''}`}>Equipment</button>
-            <button onClick={() => goToTab('users')} className={`nav-link ${activeTab === 'users' ? 'active' : ''}`}>Users</button>
-            <button onClick={() => goToTab('borrowed')} className={`nav-link ${activeTab === 'borrowed' ? 'active' : ''}`}>Borrowed</button>
-            <button onClick={() => goToTab('requests')} className={`nav-link ${activeTab === 'requests' ? 'active' : ''}`}>Requests</button>
-            <button onClick={() => navigate('/profile')} className={`nav-link ${currentPath === '/profile' ? 'active' : ''}`}>Profile</button>
-            <button onClick={handleLogout} className="logout-btn">Logout</button>
+          <div className={styles['nav-links']}>
+            <button onClick={() => goToTab('overview')} className={`${styles['nav-link']} ${activeTab === 'overview' ? styles.active : ''}`}>Overview</button>
+            <button onClick={() => goToTab('equipment')} className={`${styles['nav-link']} ${activeTab === 'equipment' ? styles.active : ''}`}>Equipment</button>
+            <button onClick={() => goToTab('users')} className={`${styles['nav-link']} ${activeTab === 'users' ? styles.active : ''}`}>Users</button>
+            <button onClick={() => goToTab('borrowed')} className={`${styles['nav-link']} ${activeTab === 'borrowed' ? styles.active : ''}`}>Borrowed</button>
+            <button onClick={() => goToTab('requests')} className={`${styles['nav-link']} ${activeTab === 'requests' ? styles.active : ''}`}>Requests</button>
+            <button onClick={() => navigate('/profile')} className={styles['nav-link']}>Profile</button>
+            <button onClick={handleLogout} className={styles['logout-btn']}>Logout</button>
           </div>
         </div>
       </header>
 
-      <div className="content">
+      <div className={styles['admin-content']}>
         <AdminEquipmentPanel
           activeTab={activeTab}
           showTabs={false}

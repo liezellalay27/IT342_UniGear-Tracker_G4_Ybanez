@@ -88,8 +88,10 @@ export const isAuthenticated = () => {
 
 // Google OAuth2 Login
 export const loginWithGoogle = () => {
-  // Use dynamic frontend origin so OAuth works on any local port (3000/3001/etc.)
-  const redirectUri = encodeURIComponent(window.location.origin);
+  // This is the frontend callback used after the backend finishes Google login.
+  // Google Cloud Console must allow the backend Spring callback URI:
+  // http://localhost:8080/api/login/oauth2/code/google
+  const redirectUri = encodeURIComponent(`${window.location.origin}/oauth2/callback`);
   window.location.href = `${BACKEND_BASE_URL}/api/auth/mobile/google?redirect_uri=${redirectUri}`;
 };
 
