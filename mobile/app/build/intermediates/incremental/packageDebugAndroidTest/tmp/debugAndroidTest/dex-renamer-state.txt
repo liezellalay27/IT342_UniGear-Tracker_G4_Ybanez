@@ -1,0 +1,7 @@
+#Mon May 18 00:31:09 PST 2026
+base.0=C\:\\Users\\Liezel Ybanez\\IT342_UniGear-Tracker_G4_Ybanez\\mobile\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeExtDexDebugAndroidTest\\classes.dex
+base.1=C\:\\Users\\Liezel Ybanez\\IT342_UniGear-Tracker_G4_Ybanez\\mobile\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\0\\classes.dex
+path.0=classes.dex
+path.1=0/classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex
