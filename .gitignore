@@ -41,7 +41,14 @@ logs/
 
 # Testing
 /coverage
+web/coverage/
+web/coverage/**
+coverage-final.json
+lcov.info
 *.test
+
+# Web build output
+web/build/
 
 # Misc
 npm-debug.log*
