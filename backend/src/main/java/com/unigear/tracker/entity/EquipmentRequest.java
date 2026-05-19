@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -35,6 +36,24 @@ public class EquipmentRequest {
     
     @Column(nullable = false)
     private Integer quantity;
+
+    @Column(name = "borrow_date")
+    private LocalDate borrowDate;
+
+    @Column(name = "return_date")
+    private LocalDate returnDate;
+
+    @Column(name = "student_name")
+    private String studentName;
+
+    @Column(name = "school_id_number")
+    private String schoolIdNumber;
+
+    @Column(name = "year_level")
+    private String yearLevel;
+
+    @Column(name = "course")
+    private String course;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -42,6 +61,19 @@ public class EquipmentRequest {
     
     @Column(length = 500)
     private String notes;
+
+    @Column(name = "returned_on_time")
+    private Boolean returnedOnTime;
+
+    @Column(name = "actual_returned_at")
+    private LocalDateTime actualReturnedAt;
+
+    @Lob
+    @Column(name = "event_approval_pdf")
+    private byte[] eventApprovalPdf;
+
+    @Column(name = "event_approval_pdf_filename")
+    private String eventApprovalPdfFilename;
     
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

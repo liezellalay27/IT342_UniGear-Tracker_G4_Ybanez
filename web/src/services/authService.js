@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api';
 const API_URL = `${API_BASE_URL}/auth`;
+const BACKEND_BASE_URL = API_BASE_URL.replace(/\/api\/?$/, '');
 
 // Debug: Log the API URL to see if environment variable is loaded
 console.log('Environment Variable:', process.env.REACT_APP_API_BASE_URL);
@@ -70,6 +71,7 @@ export const login = async (email, password) => {
 // Logout user
 export const logout = () => {
   localStorage.removeItem('user');
+  localStorage.removeItem('token');
 };
 
 // Get current user from localStorage
@@ -86,9 +88,9 @@ export const isAuthenticated = () => {
 
 // Google OAuth2 Login
 export const loginWithGoogle = () => {
-  // Redirect to backend OAuth2 authorization endpoint (Spring Security default)
-  // Note: OAuth2 paths are NOT under /api/
-  window.location.href = `http://localhost:8080/oauth2/authorization/google`;
+  // Use dynamic frontend origin so OAuth works on any local port (3000/3001/etc.)
+  const redirectUri = encodeURIComponent(window.location.origin);
+  window.location.href = `${BACKEND_BASE_URL}/api/auth/mobile/google?redirect_uri=${redirectUri}`;
 };
 
 // Get JWT token from current user

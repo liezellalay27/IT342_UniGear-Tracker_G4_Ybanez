@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.unigear.tracker.mobile">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/Theme.UniGearMobile">
+
+        <activity android:name="com.unigear.tracker.mobile.LoginActivity" />
+
+        <activity android:name="com.unigear.tracker.mobile.RegisterActivity" />
+
+        <activity android:name="com.unigear.tracker.mobile.HomeActivity" />
+
+        <activity android:name="com.unigear.tracker.mobile.MyRequestsActivity" />
+
+        <activity android:name="com.unigear.tracker.mobile.EquipmentDetailActivity" />
+
+        <activity android:name="com.unigear.tracker.mobile.ProfileActivity" />
+
+        <activity
+            android:name="com.unigear.tracker.mobile.OAuth2CallbackActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="auth"
+                    android:pathPrefix="/oauth2/callback"
+                    android:scheme="unigear" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.unigear.tracker.mobile.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

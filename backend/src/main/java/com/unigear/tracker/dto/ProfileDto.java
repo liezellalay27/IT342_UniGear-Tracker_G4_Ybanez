@@ -15,6 +15,7 @@ public class ProfileDto {
     private String name;
     private String email;
     private String picture;
+    private String role;
     private LocalDateTime createdAt;
     
     public static ProfileDto fromUser(User user) {
@@ -23,6 +24,7 @@ public class ProfileDto {
             user.getName(),
             user.getEmail(),
             user.getPicture(),
+            user.getRole().name(),
             user.getCreatedAt()
         );
     }

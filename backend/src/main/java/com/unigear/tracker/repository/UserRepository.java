@@ -14,4 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     // Check if email already exists
     boolean existsByEmail(String email);
+
+    // Check if an admin user already exists
+    boolean existsByRole(User.Role role);
 }

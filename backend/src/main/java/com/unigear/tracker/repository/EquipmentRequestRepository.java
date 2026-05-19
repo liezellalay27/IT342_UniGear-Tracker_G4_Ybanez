@@ -11,4 +11,6 @@ import java.util.List;
 public interface EquipmentRequestRepository extends JpaRepository<EquipmentRequest, Long> {
     List<EquipmentRequest> findByUserOrderByCreatedAtDesc(User user);
     List<EquipmentRequest> findByUserAndStatusOrderByCreatedAtDesc(User user, EquipmentRequest.RequestStatus status);
+    List<EquipmentRequest> findAllByOrderByCreatedAtDesc();
+    List<EquipmentRequest> findByStatusInOrderByCreatedAtDesc(List<EquipmentRequest.RequestStatus> statuses);
 }

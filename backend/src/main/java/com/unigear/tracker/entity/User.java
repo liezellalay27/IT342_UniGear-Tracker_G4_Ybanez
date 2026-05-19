@@ -30,6 +30,10 @@ public class User {
     
     @Column(nullable = true, columnDefinition = "TEXT")
     private String picture;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.STUDENT;
     
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -40,5 +44,17 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    @PrePersist
+    public void applyDefaults() {
+        if (role == null) {
+            role = Role.STUDENT;
+        }
+    }
+
+    public enum Role {
+        STUDENT,
+        ADMIN
     }
 }

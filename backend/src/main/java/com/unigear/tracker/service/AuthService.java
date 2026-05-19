@@ -7,9 +7,11 @@ import com.unigear.tracker.entity.User;
 import com.unigear.tracker.repository.UserRepository;
 import com.unigear.tracker.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -21,6 +23,9 @@ public class AuthService {
     
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Value("${app.admin.email:admin@unigear.com}")
+    private String adminEmail;
     
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     
@@ -45,17 +50,20 @@ public class AuthService {
             request.getEmail(),
             hashedPassword
         );
+        user.setRole(resolveRoleForEmail(request.getEmail()));
         
         // Save to database
         User savedUser = userRepository.save(user);
-        
+
         // Return response without password
-        return new AuthResponse(
+        AuthResponse response = new AuthResponse(
             savedUser.getId(),
             savedUser.getName(),
             savedUser.getEmail(),
-            "Registration successful"
+            savedUser.getRole().name()
         );
+        response.setMessage("Registration successful");
+        return response;
     }
     
     /**
@@ -76,14 +84,16 @@ public class AuthService {
         
         // Generate JWT token
         String token = jwtUtil.generateJwtToken(user.getEmail());
-        
+
         // Return response without password
-        return new AuthResponse(
+        AuthResponse response = new AuthResponse(
             user.getId(),
             user.getName(),
             user.getEmail(),
-            token
+            user.getRole().name()
         );
+        response.setAccessToken(token);
+        return response;
     }
     
     /**
@@ -91,6 +101,7 @@ public class AuthService {
      * - Creates or updates user from OAuth2 data
      * - Generates JWT token
      */
+    @Transactional
     public AuthResponse authenticateWithGoogleOAuth2User(OAuth2User oAuth2User) {
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
@@ -119,18 +130,34 @@ public class AuthService {
             user.setName(name);
             user.setPassword(randomPassword);
             user.setPicture(picture);
+            user.setRole(resolveRoleForEmail(email));
+            user = userRepository.save(user);
         }
-        
-        user = userRepository.save(user);
+
+        // Existing users are managed in this transaction and will flush on commit.
         
         // Generate JWT token
         String token = jwtUtil.generateJwtToken(user.getEmail());
-        
-        return new AuthResponse(
+
+        AuthResponse response = new AuthResponse(
             user.getId(),
             user.getName(),
             user.getEmail(),
-            token
+            user.getRole().name()
         );
+        response.setAccessToken(token);
+        return response;
+    }
+
+    private User.Role resolveRoleForEmail(String email) {
+        boolean matchesConfiguredAdminEmail = email != null
+                && adminEmail != null
+                && email.equalsIgnoreCase(adminEmail);
+        boolean adminAlreadyExists = userRepository.existsByRole(User.Role.ADMIN);
+
+        if (matchesConfiguredAdminEmail && !adminAlreadyExists) {
+            return User.Role.ADMIN;
+        }
+        return User.Role.STUDENT;
     }
 }

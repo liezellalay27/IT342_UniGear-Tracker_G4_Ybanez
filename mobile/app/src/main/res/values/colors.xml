@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ug_maroon">#550000</color>
+    <color name="ug_maroon_dark">#3D0000</color>
+    <color name="ug_gold">#EFBF04</color>
+    <color name="ug_gold_light">#F5D76E</color>
+    <color name="ug_gold_dark">#D4A60A</color>
+    <color name="ug_gold_accent">#FFD700</color>
+    <color name="ug_off_white">#FAF9F6</color>
+    <color name="ug_white">#FFFFFF</color>
+    <color name="ug_near_black">#222222</color>
+    <color name="status_available_text">#2E7D32</color>
+    <color name="status_inuse_text">#F57C00</color>
+</resources>

@@ -12,6 +12,7 @@ public class AuthResponse {
     private Long id;
     private String name;
     private String email;
+    private String role;
     private String message;
     private String accessToken;
     
@@ -21,13 +22,12 @@ public class AuthResponse {
         this.name = name;
         this.email = email;
     }
-    
-    // Constructor for success responses with token
-    public AuthResponse(Long id, String name, String email, String accessToken) {
+
+    public AuthResponse(Long id, String name, String email, String role) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.accessToken = accessToken;
+        this.role = role;
     }
     
     // Constructor for message-only responses
