@@ -1,20 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getCurrentUser, logout } from '../services/authService';
-import rawStyles from './EquipmentDetail.module.css';
-import LoadingSpinner from './LoadingSpinner';
-
-const styles = new Proxy(rawStyles, {
-  get(target, prop) {
-    const key = String(prop);
-    if (key in target) {
-      return target[key];
-    }
-
-    const kebabKey = key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
-    return target[kebabKey];
-  }
-});
+import styles from './EquipmentDetail.module.css';
+import logo from '../assets/UniGear Symbol.png';
 
 const API_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api';
 const UNSPLASH_API_URL = 'https://api.unsplash.com';
@@ -30,11 +18,16 @@ function EquipmentDetail() {
   const [error, setError] = useState('');
   const [images, setImages] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [, setImagesLoading] = useState(false);
+  const [imagesLoading, setImagesLoading] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   const [borrowedDates, setBorrowedDates] = useState([]);
+
+  const handleLogout = useCallback(() => {
+    logout();
+    navigate('/login');
+  }, [navigate]);
 
   const toDisplayStatus = useCallback((status) => {
     if (!status) {
@@ -282,7 +275,7 @@ function EquipmentDetail() {
   }
 
   if (loading) {
-    return <LoadingSpinner message="Loading equipment details…" showTimer={true} />;
+    return <div className={styles['loading']}>Loading equipment details...</div>;
   }
 
   if (!equipment) {
@@ -295,7 +288,34 @@ function EquipmentDetail() {
   }
 
   return (
-    <div className={styles.detailContainer}>
+    <div className={styles['detail-container']}>
+      {/* Navigation Header */}
+      <header className={styles['detail-header']}>
+        <div className={styles['header-content']}>
+          <div className={styles['logo-section']}>
+            <img src={logo} alt="Logo" className={styles['header-logo']} />
+            <span className={styles['header-title']}>UniGear Tracker</span>
+          </div>
+          <nav className={styles['nav-links']}>
+            <button type="button" onClick={() => navigate('/dashboard')} className={styles['nav-link']}>Catalog</button>
+            {user?.role === 'ADMIN' ? (
+              <>
+                <button type="button" onClick={() => navigate('/admin?tab=equipment')} className={styles['nav-link']}>Equipment</button>
+                <button type="button" onClick={() => navigate('/admin?tab=users')} className={styles['nav-link']}>Users</button>
+                <button type="button" onClick={() => navigate('/admin?tab=borrowed')} className={styles['nav-link']}>Borrowed</button>
+                <button type="button" onClick={() => navigate('/admin?tab=requests')} className={styles['nav-link']}>Requests</button>
+                <button type="button" onClick={() => navigate('/profile')} className={styles['nav-link']}>Profile</button>
+              </>
+            ) : (
+              <>
+                <button type="button" onClick={() => navigate('/my-requests')} className={styles['nav-link']}>My Requests</button>
+                <button type="button" onClick={() => navigate('/profile')} className={styles['nav-link']}>Profile</button>
+              </>
+            )}
+            <button onClick={handleLogout} className={styles['logout-btn']}>Logout</button>
+          </nav>
+        </div>
+      </header>
 
       {/* Main Content */}
       <main className={styles['detail-main']}>
@@ -334,7 +354,7 @@ function EquipmentDetail() {
                 {images.length > 1 && (
                   <div className={styles['gallery-controls']}>
                     <button
-                      className={styles.galleryNavBtn}
+                      className={styles['gallery-nav-btn']}
                       onClick={() => setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))}
                       aria-label="Previous image"
                     >
@@ -353,7 +373,7 @@ function EquipmentDetail() {
                       ))}
                     </div>
                     <button
-                      className={styles.galleryNavBtn}
+                      className={styles['gallery-nav-btn']}
                       onClick={() => setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))}
                       aria-label="Next image"
                     >
@@ -370,8 +390,8 @@ function EquipmentDetail() {
           </div>
 
           {/* Status Badge */}
-          <div className={styles.detailInfoSection}>
-            <span className={`${styles.detailStatusBadge} ${equipment.status === 'AVAILABLE' ? styles.available : styles['in-use']}`}>
+          <div className={styles['detail-info-section']}>
+            <span className={`${styles['detail-status-badge']} ${equipment.status === 'AVAILABLE' ? styles.available : styles['in-use']}`}>
               {toDisplayStatus(equipment.status)}
             </span>
 
@@ -443,7 +463,13 @@ function EquipmentDetail() {
                     <button
                       key={index}
                       type="button"
-                      className={`${styles.calendarDay} ${!date ? styles.empty : ''} ${isDateBorrowed(date) ? styles.borrowed : ''} ${isStartDate(date) ? styles['start-date'] : ''} ${isEndDate(date) ? styles['end-date'] : ''} ${isDateSelected(date) ? styles.selected : ''}`}
+                      className={`${styles['calendar-day']} ${
+                        !date ? styles.empty : ''
+                      } ${isDateBorrowed(date) ? styles.borrowed : ''} ${
+                        isStartDate(date) ? styles['start-date'] : ''
+                      } ${isEndDate(date) ? styles['end-date'] : ''} ${
+                        isDateSelected(date) ? styles.selected : ''
+                      }`}
                       onClick={() => date && handleDateClick(date)}
                       disabled={!date || isDateBorrowed(date)}
                       title={
@@ -484,17 +510,17 @@ function EquipmentDetail() {
                 </div>
               )}
 
-              <div className={styles.calendarLegend}>
-                <div className={styles.legendItem}>
-                  <div className={`${styles.legendColor} ${styles.available}`}></div>
+              <div className={styles['calendar-legend']}>
+                <div className={styles['legend-item']}>
+                  <div className={`${styles['legend-color']} ${styles.available}`}></div>
                   <span>Available</span>
                 </div>
-                <div className={styles.legendItem}>
-                  <div className={`${styles.legendColor} ${styles.borrowed}`}></div>
+                <div className={styles['legend-item']}>
+                  <div className={`${styles['legend-color']} ${styles.borrowed}`}></div>
                   <span>Not Available</span>
                 </div>
-                <div className={styles.legendItem}>
-                  <div className={`${styles.legendColor} ${styles.selected}`}></div>
+                <div className={styles['legend-item']}>
+                  <div className={`${styles['legend-color']} ${styles.selected}`}></div>
                   <span>Selected</span>
                 </div>
               </div>

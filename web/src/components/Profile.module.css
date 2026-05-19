@@ -103,12 +103,6 @@
   padding: 60px 40px;
 }
 
-.admin-content {
-  max-width: 1500px;
-  margin: 0 auto;
-  padding: 60px 40px;
-}
-
 .profile-card {
   background: white;
   padding: 60px;
@@ -388,8 +382,6 @@
   border-radius: 20px;
   border: 3px solid #EFBF04;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  box-sizing: border-box;
 }
 
 .admin-panel-card h2 {
@@ -758,13 +750,4 @@
   .admin-request-grid {
     grid-template-columns: 1fr;
   }
-}
-
-/* Loading wrapper to match other pages' neutral background */
-.loading-wrapper {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f5f5f5;
 }
