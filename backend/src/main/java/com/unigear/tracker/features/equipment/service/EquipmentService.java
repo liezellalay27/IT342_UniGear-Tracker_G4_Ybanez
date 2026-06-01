@@ -26,6 +26,9 @@ public class EquipmentService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private com.unigear.tracker.features.request.repository.EquipmentRequestRepository equipmentRequestRepository;
 
     public List<EquipmentDto> getAllEquipment(String category, String search, 
             String searchStrategy, String sortStrategy) {
@@ -97,7 +100,7 @@ public class EquipmentService {
 
         Equipment equipment = new Equipment();
         equipment.setName(dto.getName().trim());
-        equipment.setCategory(dto.getCategory().trim());
+        equipment.setCategory(EquipmentDto.normalizeCategory(dto.getCategory()));
         equipment.setLocation(dto.getLocation().trim());
         equipment.setDescription(dto.getDescription().trim());
         equipment.setSpecifications(String.join("\n", dto.getSpecifications()));
@@ -112,6 +115,80 @@ public class EquipmentService {
 
         Equipment saved = equipmentRepository.save(equipment);
         return EquipmentDto.fromEntity(saved);
+    }
+
+    @Transactional
+    public EquipmentDto updateEquipment(String userEmail, Long id, CreateEquipmentDto dto) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.getRole() != User.Role.ADMIN) {
+            throw new SecurityException("Only admins can update equipment");
+        }
+
+        Equipment equipment = equipmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Equipment not found"));
+
+        // If name changed, ensure uniqueness
+        if (!equipment.getName().equalsIgnoreCase(dto.getName())) {
+            equipmentRepository.findByNameIgnoreCase(dto.getName()).ifPresent(existing -> {
+                if (!existing.getId().equals(id)) {
+                    throw new RuntimeException("Equipment with this name already exists");
+                }
+            });
+        }
+
+        if (dto.getAvailableQuantity() > dto.getTotalQuantity()) {
+            throw new RuntimeException("Available quantity cannot exceed total quantity");
+        }
+
+        equipment.setName(dto.getName().trim());
+        equipment.setCategory(EquipmentDto.normalizeCategory(dto.getCategory()));
+        equipment.setLocation(dto.getLocation().trim());
+        equipment.setDescription(dto.getDescription().trim());
+        equipment.setSpecifications(String.join("\n", dto.getSpecifications()));
+        equipment.setTotalQuantity(dto.getTotalQuantity());
+        equipment.setAvailableQuantity(dto.getAvailableQuantity());
+
+        Equipment.EquipmentStatus status = EquipmentStatusFactory.createStatusFromQuantity(
+                dto.getAvailableQuantity()
+        );
+        equipment.setStatus(status);
+
+        Equipment saved = equipmentRepository.save(equipment);
+        return EquipmentDto.fromEntity(saved);
+    }
+
+    @Transactional
+    public void deleteEquipment(String userEmail, Long id) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.getRole() != User.Role.ADMIN) {
+            throw new SecurityException("Only admins can delete equipment");
+        }
+
+        if (!equipmentRepository.existsById(id)) {
+            throw new RuntimeException("Equipment not found");
+        }
+
+        // Prevent deletion when there are pending or approved requests for this equipment
+        Equipment equipment = equipmentRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Equipment not found"));
+
+        boolean hasActiveRequests = equipmentRequestRepository.existsByEquipmentNameIgnoreCaseAndStatusIn(
+            equipment.getName(), List.of(
+                com.unigear.tracker.features.request.entity.EquipmentRequest.RequestStatus.PENDING,
+                com.unigear.tracker.features.request.entity.EquipmentRequest.RequestStatus.APPROVED
+            )
+        );
+
+        if (hasActiveRequests) {
+            throw new com.unigear.tracker.exceptions.ResourceConflictException(
+                    "Cannot delete equipment with pending or approved requests. Complete or reject requests first.");
+        }
+
+        equipmentRepository.deleteById(id);
     }
     
     /**

@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/requests")
+@RequestMapping("/requests")
 @CrossOrigin(origins = "*")
 public class RequestController {
     

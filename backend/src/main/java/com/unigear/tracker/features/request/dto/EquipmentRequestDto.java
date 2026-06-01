@@ -1,6 +1,7 @@
 package com.unigear.tracker.features.request.dto;
 
 import com.unigear.tracker.features.request.entity.EquipmentRequest;
+import com.unigear.tracker.features.equipment.dto.EquipmentDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,7 +42,7 @@ public class EquipmentRequestDto {
             request.getUser() != null ? request.getUser().getName() : null,
             request.getUser() != null ? request.getUser().getEmail() : null,
             request.getEquipmentName(),
-            request.getCategory(),
+            EquipmentDto.normalizeCategory(request.getCategory()),
             request.getDescription(),
             request.getQuantity(),
             request.getBorrowDate(),

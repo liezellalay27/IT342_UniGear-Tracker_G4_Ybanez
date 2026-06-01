@@ -30,6 +30,12 @@ class MyRequestsActivity : AppCompatActivity() {
     private lateinit var formContainer: View
     private lateinit var equipmentNameInput: EditText
     private lateinit var quantityInput: EditText
+    private lateinit var borrowDateInput: EditText
+    private lateinit var returnDateInput: EditText
+    private lateinit var studentNameInput: EditText
+    private lateinit var schoolIdInput: EditText
+    private lateinit var yearLevelInput: EditText
+    private lateinit var courseInput: EditText
     private lateinit var descriptionInput: EditText
     private lateinit var categorySpinner: Spinner
 
@@ -55,6 +61,12 @@ class MyRequestsActivity : AppCompatActivity() {
         formContainer = findViewById(R.id.requestFormContainer)
         equipmentNameInput = findViewById(R.id.etRequestEquipmentName)
         quantityInput = findViewById(R.id.etRequestQuantity)
+        borrowDateInput = findViewById(R.id.etBorrowDate)
+        returnDateInput = findViewById(R.id.etReturnDate)
+        studentNameInput = findViewById(R.id.etStudentName)
+        schoolIdInput = findViewById(R.id.etSchoolIdNumber)
+        yearLevelInput = findViewById(R.id.etYearLevel)
+        courseInput = findViewById(R.id.etCourse)
         descriptionInput = findViewById(R.id.etRequestDescription)
         categorySpinner = findViewById(R.id.spRequestCategory)
 
@@ -129,6 +141,11 @@ class MyRequestsActivity : AppCompatActivity() {
         if (openForm) {
             formContainer.visibility = View.VISIBLE
         }
+
+        val storedName = getSharedPreferences("unigear_auth", MODE_PRIVATE).getString("name", null)
+        if (!storedName.isNullOrBlank() && studentNameInput.text.isNullOrBlank()) {
+            studentNameInput.setText(storedName)
+        }
     }
 
     private fun updateTabStyles() {
@@ -178,18 +195,43 @@ class MyRequestsActivity : AppCompatActivity() {
         val category = categorySpinner.selectedItem?.toString()?.trim().orEmpty()
         val description = descriptionInput.text.toString().trim()
         val quantity = quantityInput.text.toString().toIntOrNull() ?: 0
+        val borrowDate = borrowDateInput.text.toString().trim()
+        val returnDate = returnDateInput.text.toString().trim()
+        val studentName = studentNameInput.text.toString().trim()
+        val schoolIdNumber = schoolIdInput.text.toString().trim()
+        val yearLevel = yearLevelInput.text.toString().trim()
+        val course = courseInput.text.toString().trim()
 
         when {
             equipmentName.isBlank() -> showError("Equipment name is required")
             category.isBlank() -> showError("Category is required")
             quantity < 1 -> showError("Quantity must be at least 1")
+            borrowDate.isBlank() -> showError("Borrow date is required")
+            returnDate.isBlank() -> showError("Return date is required")
+            studentName.isBlank() -> showError("Student name is required")
+            schoolIdNumber.isBlank() -> showError("School ID number is required")
+            !Regex("^\\d{2}-\\d{4}-\\d{3}$").matches(schoolIdNumber) -> showError("School ID must follow the format 17-0635-488")
+            yearLevel.isBlank() -> showError("Year level is required")
+            course.isBlank() -> showError("Course is required")
             else -> {
                 showError("")
                 Thread {
-                    val result = AuthApiClient.createRequest(token, equipmentName, category, description, quantity)
+                    val result = AuthApiClient.createRequest(
+                        token,
+                        equipmentName,
+                        category,
+                        description,
+                        quantity,
+                        borrowDate,
+                        returnDate,
+                        studentName,
+                        schoolIdNumber,
+                        yearLevel,
+                        course
+                    )
                     runOnUiThread {
                         if (result.success) {
-                            Toast.makeText(this, "Request submitted", Toast.LENGTH_SHORT).show()
+                            UiToast.show(this, "Request submitted successfully.", UiToast.Style.SUCCESS)
                             clearForm()
                             formContainer.visibility = View.GONE
                             fetchRequests()
@@ -265,6 +307,10 @@ class MyRequestsActivity : AppCompatActivity() {
             card.findViewById<TextView>(R.id.tvRequestTitle).text = item.equipmentName
             card.findViewById<TextView>(R.id.tvRequestCategory).text = "Category: ${item.category}"
             card.findViewById<TextView>(R.id.tvRequestQuantity).text = "Quantity: ${item.quantity}"
+            card.findViewById<TextView>(R.id.tvRequestBorrowReturn).text =
+                "Borrow: ${displayDate(item.borrowDate)} | Return: ${displayDate(item.returnDate)}"
+            card.findViewById<TextView>(R.id.tvRequestStudent).text =
+                "Student: ${item.studentName.ifBlank { "-" }}"
             card.findViewById<TextView>(R.id.tvRequestDate).text = "Created: ${displayDate(item.createdAt)}"
             card.findViewById<TextView>(R.id.tvRequestDescription).text =
                 if (item.description.isBlank()) "No purpose provided" else item.description
@@ -298,6 +344,12 @@ class MyRequestsActivity : AppCompatActivity() {
     private fun clearForm() {
         equipmentNameInput.setText("")
         quantityInput.setText("1")
+        borrowDateInput.setText("")
+        returnDateInput.setText("")
+        studentNameInput.setText(getSharedPreferences("unigear_auth", MODE_PRIVATE).getString("name", "") ?: "")
+        schoolIdInput.setText("")
+        yearLevelInput.setText("")
+        courseInput.setText("")
         descriptionInput.setText("")
         categorySpinner.setSelection(0)
     }

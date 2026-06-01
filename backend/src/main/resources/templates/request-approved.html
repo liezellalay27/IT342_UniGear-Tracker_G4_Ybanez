@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Request Approved</title>
+  </head>
+  <body style="margin:0;padding:0;background:#f5f1ea;font-family:Arial,Helvetica,sans-serif;color:#222;">
+    <div style="max-width:640px;margin:0 auto;padding:24px;">
+      <div style="background:#550000;color:#fff;padding:24px 28px;border-radius:16px 16px 0 0;">
+        <div style="font-size:14px;letter-spacing:1px;text-transform:uppercase;color:#f6d36b;">UniGear Tracker</div>
+        <h1 style="margin:10px 0 0;font-size:30px;line-height:1.2;">Request Approved</h1>
+      </div>
+      <div style="background:#fff;border:1px solid #eadfcd;border-top:none;border-radius:0 0 16px 16px;padding:28px;">
+        <p style="margin:0 0 16px;font-size:16px;line-height:1.6;">Hi <strong>[[${studentName}]]</strong>,</p>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.7;">Your equipment request has been <strong style="color:#2e7d32;">approved</strong>. Please keep this email and the attached PDF copy for your reference.</p>
+
+        <table style="width:100%;border-collapse:collapse;margin-top:18px;font-size:14px;">
+          <tr>
+            <td style="padding:10px;border:1px solid #eadfcd;width:160px;background:#faf7f2;"><strong>Request ID</strong></td>
+            <td style="padding:10px;border:1px solid #eadfcd;">[[${requestId}]]</td>
+          </tr>
+          <tr>
+            <td style="padding:10px;border:1px solid #eadfcd;background:#faf7f2;"><strong>Equipment</strong></td>
+            <td style="padding:10px;border:1px solid #eadfcd;">[[${equipmentName}]]</td>
+          </tr>
+          <tr>
+            <td style="padding:10px;border:1px solid #eadfcd;background:#faf7f2;"><strong>Quantity</strong></td>
+            <td style="padding:10px;border:1px solid #eadfcd;">[[${quantity}]]</td>
+          </tr>
+          <tr>
+            <td style="padding:10px;border:1px solid #eadfcd;background:#faf7f2;"><strong>Borrow Date</strong></td>
+            <td style="padding:10px;border:1px solid #eadfcd;">[[${borrowDate}]]</td>
+          </tr>
+          <tr>
+            <td style="padding:10px;border:1px solid #eadfcd;background:#faf7f2;"><strong>Return Date</strong></td>
+            <td style="padding:10px;border:1px solid #eadfcd;">[[${returnDate}]]</td>
+          </tr>
+          <tr>
+            <td style="padding:10px;border:1px solid #eadfcd;background:#faf7f2;"><strong>Course / Year</strong></td>
+            <td style="padding:10px;border:1px solid #eadfcd;">[[${yearLevel}]] | [[${course}]]</td>
+          </tr>
+        </table>
+
+        <p style="margin:18px 0 0;font-size:13px;line-height:1.6;color:#555;">If you have questions, reply to this email or contact UniGear Tracker support.</p>
+        <p style="margin:16px 0 0;font-size:14px;line-height:1.6;">Thanks,<br/><strong>UniGear Tracker</strong></p>
+      </div>
+    </div>
+  </body>
+</html>

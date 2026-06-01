@@ -135,16 +135,22 @@ class ProfileActivity : AppCompatActivity() {
         val btnAdminRequests = findViewById<View>(R.id.btnAdminRequests)
 
         btnAdminEquipment?.setOnClickListener {
-            Toast.makeText(this, "Admin Equipment Management (Coming Soon)", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, AdminEquipmentActivity::class.java))
         }
         btnAdminUsers?.setOnClickListener {
-            Toast.makeText(this, "Admin User Management (Coming Soon)", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, AdminDashboardActivity::class.java)
+            intent.putExtra("initial_tab", "users")
+            startActivity(intent)
         }
         btnAdminBorrowed?.setOnClickListener {
-            Toast.makeText(this, "Admin Borrowed Items (Coming Soon)", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, AdminDashboardActivity::class.java)
+            intent.putExtra("initial_tab", "borrowed")
+            startActivity(intent)
         }
         btnAdminRequests?.setOnClickListener {
-            Toast.makeText(this, "Admin Requests (Coming Soon)", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, AdminDashboardActivity::class.java)
+            intent.putExtra("initial_tab", "requests")
+            startActivity(intent)
         }
     }
 
@@ -184,7 +190,7 @@ class ProfileActivity : AppCompatActivity() {
                 }
             }
         } catch (e: Exception) {
-            Toast.makeText(this, "Could not load profile picture", Toast.LENGTH_SHORT).show()
+            UiToast.show(this, "Could not load the profile picture.", UiToast.Style.ERROR)
         }
     }
 
@@ -207,7 +213,7 @@ class ProfileActivity : AppCompatActivity() {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(intent, CAMERA_REQUEST)
         } catch (e: Exception) {
-            Toast.makeText(this, "Camera not available", Toast.LENGTH_SHORT).show()
+            UiToast.show(this, "Camera is not available on this device.", UiToast.Style.ERROR)
         }
     }
 
@@ -217,7 +223,7 @@ class ProfileActivity : AppCompatActivity() {
             intent.type = "image/*"
             startActivityForResult(intent, PICK_IMAGE_REQUEST)
         } catch (e: Exception) {
-            Toast.makeText(this, "Gallery not available", Toast.LENGTH_SHORT).show()
+            UiToast.show(this, "Gallery access is not available right now.", UiToast.Style.ERROR)
         }
     }
 
@@ -236,7 +242,7 @@ class ProfileActivity : AppCompatActivity() {
                     }
                 }
                 CAMERA_REQUEST -> {
-                    Toast.makeText(this, "Photo captured", Toast.LENGTH_SHORT).show()
+                    UiToast.show(this, "Photo captured successfully.", UiToast.Style.SUCCESS)
                     fetchUserProfile()
                 }
             }
@@ -245,11 +251,11 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun uploadProfilePicture() {
         if (userToken.isNullOrBlank() || currentProfileImagePath.isNullOrBlank()) {
-            Toast.makeText(this, "Unable to upload picture", Toast.LENGTH_SHORT).show()
+            UiToast.show(this, "Unable to upload the picture.", UiToast.Style.ERROR)
             return
         }
 
-        Toast.makeText(this, "Profile picture updated", Toast.LENGTH_SHORT).show()
+        UiToast.show(this, "Profile picture updated successfully.", UiToast.Style.SUCCESS)
     }
 
     private fun showEditNameDialog() {
@@ -265,7 +271,7 @@ class ProfileActivity : AppCompatActivity() {
                 if (newName.isNotBlank()) {
                     updateProfileName(newName)
                 } else {
-                    Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show()
+                    UiToast.show(this, "Name cannot be empty.", UiToast.Style.ERROR)
                 }
             }
             .setNegativeButton("Cancel", null)
@@ -288,7 +294,7 @@ class ProfileActivity : AppCompatActivity() {
                 if (result.success) {
                     userName.text = newName
                     setDefaultProfilePicture(newName)
-                    Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
+                    UiToast.show(this, "Profile updated successfully.", UiToast.Style.SUCCESS)
                 } else {
                     showError(result.message)
                 }
@@ -317,7 +323,7 @@ class ProfileActivity : AppCompatActivity() {
         Thread {
             AuthApiClient.logout()
             runOnUiThread {
-                Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show()
+                    UiToast.show(this, "You have been logged out.", UiToast.Style.INFO)
                 val loginIntent = Intent(this, LoginActivity::class.java)
                 loginIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(loginIntent)

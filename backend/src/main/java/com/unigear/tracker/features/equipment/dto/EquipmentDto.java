@@ -27,6 +27,17 @@ public class EquipmentDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public static String normalizeCategory(String category) {
+        if (category == null) {
+            return null;
+        }
+
+        return Arrays.stream(category.trim().toLowerCase().replace('_', ' ').split("\\s+"))
+                .filter(s -> !s.isBlank())
+                .map(part -> part.substring(0, 1).toUpperCase() + part.substring(1))
+                .collect(Collectors.joining(" "));
+    }
+
     public static EquipmentDto fromEntity(Equipment equipment) {
         List<String> specs = Arrays.stream(equipment.getSpecifications().split("\\n"))
                 .map(String::trim)
@@ -36,7 +47,7 @@ public class EquipmentDto {
         return new EquipmentDto(
                 equipment.getId(),
                 equipment.getName(),
-                equipment.getCategory(),
+                normalizeCategory(equipment.getCategory()),
                 equipment.getLocation(),
                 equipment.getDescription(),
                 specs,

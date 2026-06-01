@@ -135,12 +135,11 @@ class EquipmentDetailActivity : AppCompatActivity() {
     private fun fetchBorrowedDates(equipmentName: String) {
         Thread {
             try {
-                val token = android.content.SharedPreferences.call(
-                    getSharedPreferences("unigear_auth", MODE_PRIVATE),
-                    "getString"
-                ) as? String ?: return@Thread
+                val token = getSharedPreferences("unigear_auth", MODE_PRIVATE)
+                    .getString("token", null)
+                    ?: return@Thread
 
-                val result = AuthApiClient.getRequests(token ?: "")
+                val result = AuthApiClient.getRequests(token)
                 
                 if (result.success) {
                     val dates = mutableSetOf<String>()

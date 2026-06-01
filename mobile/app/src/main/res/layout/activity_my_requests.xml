@@ -140,6 +140,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:background="@drawable/home_chip_active"
+                    android:backgroundTint="@null"
                     android:text="New"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
@@ -347,6 +348,120 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:text="Borrow Date"
+                        android:textColor="#550000"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etBorrowDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/auth_input_bg"
+                        android:hint="yyyy-mm-dd"
+                        android:inputType="text"
+                        android:paddingHorizontal="12dp"
+                        android:textColor="#222222" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Return Date"
+                        android:textColor="#550000"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etReturnDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/auth_input_bg"
+                        android:hint="yyyy-mm-dd"
+                        android:inputType="text"
+                        android:paddingHorizontal="12dp"
+                        android:textColor="#222222" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Student Name"
+                        android:textColor="#550000"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etStudentName"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/auth_input_bg"
+                        android:hint="Your full name"
+                        android:inputType="textPersonName"
+                        android:paddingHorizontal="12dp"
+                        android:textColor="#222222" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="School ID Number"
+                        android:textColor="#550000"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etSchoolIdNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/auth_input_bg"
+                        android:hint="17-0635-488"
+                        android:inputType="text"
+                        android:paddingHorizontal="12dp"
+                        android:textColor="#222222" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Year Level"
+                        android:textColor="#550000"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etYearLevel"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/auth_input_bg"
+                        android:hint="1st Year"
+                        android:inputType="text"
+                        android:paddingHorizontal="12dp"
+                        android:textColor="#222222" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Course"
+                        android:textColor="#550000"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etCourse"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/auth_input_bg"
+                        android:hint="BSIT"
+                        android:inputType="text"
+                        android:paddingHorizontal="12dp"
+                        android:textColor="#222222" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:text="Purpose / Description"
                         android:textColor="#550000"
                         android:textStyle="bold" />
@@ -369,6 +484,7 @@
                         android:layout_height="52dp"
                         android:layout_marginTop="14dp"
                         android:background="@drawable/auth_primary_button"
+                        android:backgroundTint="@null"
                         android:text="Submit Request"
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
@@ -388,9 +504,10 @@
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/home_chip_active"
+                        android:backgroundTint="@null"
                         android:text="Active"
                         android:textAllCaps="false"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/chip_text_color"
                         android:textStyle="bold" />
 
                     <Button
@@ -399,9 +516,10 @@
                         android:layout_height="44dp"
                         android:layout_weight="1"
                         android:background="@drawable/home_chip_inactive"
+                        android:backgroundTint="@null"
                         android:text="History"
                         android:textAllCaps="false"
-                        android:textColor="#550000"
+                        android:textColor="@color/chip_text_color"
                         android:textStyle="bold" />
                 </LinearLayout>
 

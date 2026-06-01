@@ -2,8 +2,7 @@ package com.unigear.tracker.pattern.observer.observers;
 
 import com.unigear.tracker.pattern.observer.EventObserver;
 import com.unigear.tracker.pattern.observer.SystemEvent;
-import com.unigear.tracker.pattern.factory.NotificationFactory;
-import com.unigear.tracker.pattern.factory.interfaces.Notifier;
+import com.unigear.tracker.features.auth.service.EmailService;
 import com.unigear.tracker.pattern.singleton.LoggerService;
 
 /**
@@ -17,25 +16,17 @@ import com.unigear.tracker.pattern.singleton.LoggerService;
  */
 public class NotificationObserver implements EventObserver {
     
-    private final Notifier emailNotifier;
+    private final EmailService emailService;
     private static final LoggerService logger = LoggerService.getInstance();
     
-    public NotificationObserver() {
-        Notifier notifier = null;
-        try {
-            notifier = NotificationFactory.createNotifier(NotificationFactory.NotificationType.EMAIL);
-        } catch (Exception e) {
-            logger.logWarning("NotificationObserver", "Failed to initialize email notifier: " + e.getMessage());
-            logger.logWarning("NotificationObserver", "Continuing with notifications disabled. Configure JWT/email settings to enable.");
-            // Continue without email notifier - it's optional during development
-        }
-        this.emailNotifier = notifier;
+    public NotificationObserver(EmailService emailService) {
+        this.emailService = emailService;
     }
     
     @Override
     public void onEvent(SystemEvent event) {
-        if (emailNotifier == null) {
-            logger.logWarning("NotificationObserver", "Email notifier not available, skipping notification for event: " + event.getEventType());
+        if (emailService == null) {
+            logger.logWarning("NotificationObserver", "Email service not available, skipping notification for event: " + event.getEventType());
             return;
         }
         
@@ -59,24 +50,75 @@ public class NotificationObserver implements EventObserver {
     
     private void handleRequestApproved(SystemEvent event) {
         String studentEmail = event.getData() instanceof String ? (String) event.getData() : event.getActor();
-        emailNotifier.send(
-            studentEmail,
-            "Request Approved",
-            "Your equipment request has been approved. Please pick up your equipment."
-        );
+        String subject = "Your UniGear equipment request is approved";
+        // render template
+        try {
+                java.util.Map<String,Object> model = new java.util.HashMap<>();
+                model.put("requestId", event.getTargetId());
+                model.put("equipmentName", event.getMetadata().getOrDefault("equipmentName", ""));
+                model.put("quantity", event.getMetadata().getOrDefault("quantity", ""));
+                model.put("studentName", event.getMetadata().getOrDefault("studentName", ""));
+                model.put("schoolIdNumber", event.getMetadata().getOrDefault("schoolIdNumber", ""));
+                model.put("borrowDate", event.getMetadata().getOrDefault("borrowDate", ""));
+                model.put("returnDate", event.getMetadata().getOrDefault("returnDate", ""));
+                model.put("yearLevel", event.getMetadata().getOrDefault("yearLevel", ""));
+                model.put("course", event.getMetadata().getOrDefault("course", ""));
+                model.put("notes", event.getMetadata().getOrDefault("notes", ""));
+            String rendered = emailService.renderTemplate("request-approved", model);
+            if (rendered != null) {
+                byte[] approvalPdf = emailService.generateApprovalPdf(model);
+                String filename = "request-" + event.getTargetId() + "-approval.pdf";
+                emailService.sendHtmlEmailWithAttachment(studentEmail, subject, rendered, approvalPdf, filename, "application/pdf");
+            } else {
+                // fallback
+                String body = "Hi,\n\nYour equipment request has been approved. Request ID: " + event.getTargetId();
+                emailService.sendGenericEmail(studentEmail, subject, body);
+            }
+        } catch (Exception e) {
+            logger.logWarning("NotificationObserver", "Failed to render approval template: " + e.getMessage());
+        }
         logger.logDebug("NotificationObserver", 
             "Approval notification sent to: " + studentEmail);
     }
     
     private void handleRequestRejected(SystemEvent event) {
         String studentEmail = event.getData() instanceof String ? (String) event.getData() : event.getActor();
-        emailNotifier.send(
-            studentEmail,
-            "Request Rejected",
-            "Your equipment request has been rejected. Please contact support for more information."
-        );
+        String subject = "UniGear request update: rejected";
+        String reason = event.getMetadata().getOrDefault("rejectionReason", "No reason provided").toString();
+        try {
+            java.util.Map<String,Object> model = new java.util.HashMap<>();
+            model.put("reason", reason);
+            String rendered = emailService.renderTemplate("request-rejected", model);
+            if (rendered != null) {
+                emailService.sendHtmlEmail(studentEmail, subject, rendered);
+            } else {
+                emailService.sendGenericEmail(studentEmail, subject, "Your request was rejected. Reason: " + reason);
+            }
+        } catch (Exception e) {
+            logger.logWarning("NotificationObserver", "Failed to render rejection template: " + e.getMessage());
+        }
         logger.logDebug("NotificationObserver", 
             "Rejection notification sent to: " + studentEmail);
+    }
+
+    private void handleRequestCreated(SystemEvent event) {
+        String studentEmail = event.getData() instanceof String ? (String) event.getData() : event.getActor();
+        String subject = "UniGear request received";
+        try {
+                java.util.Map<String,Object> model = new java.util.HashMap<>();
+                model.put("requestId", event.getTargetId());
+                model.put("equipmentName", event.getMetadata().getOrDefault("equipmentName", ""));
+                model.put("quantity", event.getMetadata().getOrDefault("quantity", ""));
+            String rendered = emailService.renderTemplate("request-created", model);
+            if (rendered != null) {
+                emailService.sendHtmlEmail(studentEmail, subject, rendered);
+            } else {
+                emailService.sendGenericEmail(studentEmail, subject, "We received your request: " + event.getTargetId());
+            }
+        } catch (Exception e) {
+            logger.logWarning("NotificationObserver", "Failed to render creation template: " + e.getMessage());
+        }
+        logger.logDebug("NotificationObserver", "Creation notification sent to: " + studentEmail);
     }
     
     private void handleEquipmentUpdated(SystemEvent event) {
@@ -101,6 +143,7 @@ public class NotificationObserver implements EventObserver {
         return eventType.equals("REQUEST_APPROVED") ||
                eventType.equals("REQUEST_REJECTED") ||
                eventType.equals("EQUIPMENT_UPDATED") ||
-               eventType.equals("REQUEST_RETURNED");
+               eventType.equals("REQUEST_RETURNED") ||
+               eventType.equals("REQUEST_CREATED");
     }
 }

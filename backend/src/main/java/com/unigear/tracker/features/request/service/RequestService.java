@@ -1,6 +1,7 @@
 package com.unigear.tracker.features.request.service;
 
 import com.unigear.tracker.features.request.dto.CreateRequestDto;
+import com.unigear.tracker.features.request.dto.AdminEquipmentRequestView;
 import com.unigear.tracker.features.request.dto.EquipmentRequestDto;
 import com.unigear.tracker.features.admin.dto.AdminUserDto;
 import com.unigear.tracker.features.equipment.entity.Equipment;
@@ -178,6 +179,20 @@ public class RequestService {
         request.setEventApprovalPdfFilename(pdfFilename);
         
         EquipmentRequest savedRequest = requestRepository.save(request);
+        // Publish creation event for notifications
+        SystemEvent creationEvent = SystemEvent.builder()
+            .eventType(SystemEvent.EventType.REQUEST_CREATED)
+            .source("RequestService")
+            .targetId(savedRequest.getId())
+            .targetType("REQUEST")
+            .actor(user.getEmail())
+            .data(user.getEmail())
+            .description("Request " + savedRequest.getId() + " created by " + user.getEmail())
+            .build();
+        creationEvent.addMetadata("equipmentName", savedRequest.getEquipmentName());
+        creationEvent.addMetadata("quantity", savedRequest.getQuantity());
+        eventPublisher.publish(creationEvent);
+
         return EquipmentRequestDto.fromEntity(savedRequest);
     }
     
@@ -223,6 +238,19 @@ public class RequestService {
         request.setStatus(EquipmentRequest.RequestStatus.PENDING);
         
         EquipmentRequest savedRequest = requestRepository.save(request);
+        SystemEvent creationEvent = SystemEvent.builder()
+            .eventType(SystemEvent.EventType.REQUEST_CREATED)
+            .source("RequestService")
+            .targetId(savedRequest.getId())
+            .targetType("REQUEST")
+            .actor(user.getEmail())
+            .data(user.getEmail())
+            .description("Request " + savedRequest.getId() + " created by " + user.getEmail())
+            .build();
+        creationEvent.addMetadata("equipmentName", savedRequest.getEquipmentName());
+        creationEvent.addMetadata("quantity", savedRequest.getQuantity());
+        eventPublisher.publish(creationEvent);
+
         return EquipmentRequestDto.fromEntity(savedRequest);
     }
 
@@ -278,17 +306,34 @@ public class RequestService {
         }
         
         EquipmentRequest savedRequest = requestRepository.save(request);
+        SystemEvent creationEvent = SystemEvent.builder()
+            .eventType(SystemEvent.EventType.REQUEST_CREATED)
+            .source("RequestService")
+            .targetId(savedRequest.getId())
+            .targetType("REQUEST")
+            .actor(user.getEmail())
+            .data(user.getEmail())
+            .description("Request " + savedRequest.getId() + " created by " + user.getEmail())
+            .build();
+        creationEvent.addMetadata("equipmentName", savedRequest.getEquipmentName());
+        creationEvent.addMetadata("quantity", savedRequest.getQuantity());
+        eventPublisher.publish(creationEvent);
+
         return EquipmentRequestDto.fromEntity(savedRequest);
     }
     
     public List<EquipmentRequestDto> getUserRequests(String userEmail) {
-        User user = userRepository.findByEmail(userEmail)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-        
-        return requestRepository.findByUserOrderByCreatedAtDesc(user)
+        ensureAuthenticatedUserExists(userEmail);
+
+        return requestRepository.findUserRequestViewsByEmailOrderByCreatedAtDesc(userEmail)
             .stream()
-            .map(EquipmentRequestDto::fromEntity)
+            .map(this::fromAdminRequestView)
             .collect(Collectors.toList());
+    }
+
+    private void ensureAuthenticatedUserExists(String email) {
+        userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
     
     public EquipmentRequestDto getRequestById(Long id, String userEmail) {
@@ -328,24 +373,45 @@ public class RequestService {
 
     public List<EquipmentRequestDto> getAllRequestsForAdmin(String adminEmail) {
         ensureAdmin(adminEmail);
-        return requestRepository.findAllByOrderByCreatedAtDesc()
+        return requestRepository.findAllAdminRequestViews()
                 .stream()
-                .map(EquipmentRequestDto::fromEntity)
+            .map(this::fromAdminRequestView)
                 .collect(Collectors.toList());
     }
 
     public List<EquipmentRequestDto> getBorrowedRequestsForAdmin(String adminEmail) {
         ensureAdmin(adminEmail);
-        List<EquipmentRequest.RequestStatus> statuses = List.of(
-                EquipmentRequest.RequestStatus.APPROVED,
-                EquipmentRequest.RequestStatus.COMPLETED
-        );
-
-        return requestRepository.findByStatusInOrderByCreatedAtDesc(statuses)
+        return requestRepository.findBorrowedAdminRequestViews()
                 .stream()
-                .map(EquipmentRequestDto::fromEntity)
+            .map(this::fromAdminRequestView)
                 .collect(Collectors.toList());
     }
+
+    private EquipmentRequestDto fromAdminRequestView(AdminEquipmentRequestView view) {
+        return new EquipmentRequestDto(
+            view.getId(),
+            view.getUserId(),
+            view.getRequesterName(),
+            view.getRequesterEmail(),
+            view.getEquipmentName(),
+            view.getCategory(),
+            view.getDescription(),
+            view.getQuantity(),
+            view.getBorrowDate(),
+            view.getReturnDate(),
+            view.getStudentName(),
+            view.getSchoolIdNumber(),
+            view.getYearLevel(),
+            view.getCourse(),
+            view.getStatus(),
+            view.getNotes(),
+            view.getReturnedOnTime(),
+            view.getActualReturnedAt(),
+            view.getEventApprovalPdf(),
+            view.getCreatedAt(),
+            view.getUpdatedAt()
+        );
+        }
 
     public byte[] getPdfContent(Long requestId, String userEmail) throws IOException {
         EquipmentRequest request = requestRepository.findById(requestId)
@@ -443,11 +509,18 @@ public class RequestService {
                 .targetId(requestId)
                 .targetType("REQUEST")
                 .actor(adminEmail)
+                .data(request.getUser().getEmail())
                 .description("Request " + requestId + " approved by admin")
                 .build();
             approvalEvent.addMetadata("equipmentName", updated.getEquipmentName());
             approvalEvent.addMetadata("quantity", updated.getQuantity());
             approvalEvent.addMetadata("studentName", updated.getStudentName());
+            approvalEvent.addMetadata("schoolIdNumber", updated.getSchoolIdNumber());
+            approvalEvent.addMetadata("borrowDate", updated.getBorrowDate());
+            approvalEvent.addMetadata("returnDate", updated.getReturnDate());
+            approvalEvent.addMetadata("yearLevel", updated.getYearLevel());
+            approvalEvent.addMetadata("course", updated.getCourse());
+            approvalEvent.addMetadata("notes", updated.getNotes() != null ? updated.getNotes() : "");
             eventPublisher.publish(approvalEvent);
         } else if (nextStatus == EquipmentRequest.RequestStatus.REJECTED) {
             SystemEvent rejectionEvent = SystemEvent.builder()
@@ -456,6 +529,7 @@ public class RequestService {
                 .targetId(requestId)
                 .targetType("REQUEST")
                 .actor(adminEmail)
+                .data(request.getUser().getEmail())
                 .description("Request " + requestId + " rejected")
                 .build();
             rejectionEvent.addMetadata("rejectionReason", notes != null ? notes : "No reason provided");

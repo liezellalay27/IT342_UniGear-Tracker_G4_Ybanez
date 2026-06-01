@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.unigear.tracker.mobile.app-mergeDebugResources-29:/values-small-v4/values-small-v4.xml",
+            "outputFile": "com.unigear.tracker.mobile.app-mergeDebugResources-30:/values-small-v4/values-small-v4.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Liezel Ybanez\\.gradle\\caches\\transforms-3\\7c2dac06160fa8210740d862ff2fe8db\\transformed\\material-1.12.0\\res\\values-small-v4\\values-small-v4.xml",

@@ -30,8 +30,8 @@ public class DesignPatternConfiguration {
      * (e.g., sends email when request is approved)
      */
     @Bean
-    public NotificationObserver notificationObserver() {
-        return new NotificationObserver();
+    public NotificationObserver notificationObserver(com.unigear.tracker.features.auth.service.EmailService emailService) {
+        return new NotificationObserver(emailService);
     }
     
     /**

@@ -535,7 +535,8 @@ function EquipmentDetail() {
                   category: equipment.category,
                   quantity: 1,
                   borrowDate: selectedStartDate ? selectedStartDate.toISOString().split('T')[0] : '',
-                  returnDate: selectedEndDate ? selectedEndDate.toISOString().split('T')[0] : ''
+                        returnDate: selectedEndDate ? selectedEndDate.toISOString().split('T')[0] : '',
+                        studentName: user?.name || ''
                 }
               })}
             >

@@ -1,10 +1,13 @@
 package com.unigear.tracker.features.auth.controller;
 
 import com.unigear.tracker.features.auth.dto.AuthResponse;
+import com.unigear.tracker.features.auth.dto.ForgotPasswordRequest;
 import com.unigear.tracker.features.auth.dto.LoginRequest;
 import com.unigear.tracker.features.auth.dto.RegisterRequest;
+import com.unigear.tracker.features.auth.dto.ResetPasswordRequest;
 import com.unigear.tracker.features.auth.service.AuthService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
     
@@ -57,6 +60,30 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        try {
+            AuthResponse response = authService.requestPasswordReset(request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        try {
+            AuthResponse response = authService.resetPassword(request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
+    }
+
     /**
      * GET /api/auth/mobile/google
      * Starts Google OAuth2 flow for mobile app and stores redirect URI in a short-lived cookie.
@@ -64,14 +91,15 @@ public class AuthController {
     @GetMapping("/mobile/google")
     public void startMobileGoogleOAuth(
             @RequestParam(name = "redirect_uri", defaultValue = "unigear://auth") String redirectUri,
-            HttpServletResponse response
+            HttpServletResponse response,
+            HttpServletRequest request
     ) throws java.io.IOException {
         Cookie cookie = new Cookie("oauth2_redirect_uri", redirectUri);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(180);
         response.addCookie(cookie);
-        response.sendRedirect("/oauth2/authorization/google");
+        response.sendRedirect(request.getContextPath() + "/oauth2/authorization/google");
     }
     
     /**

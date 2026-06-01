@@ -1,19 +1,33 @@
 package com.unigear.tracker.features.auth.service;
 
+import com.unigear.tracker.features.auth.config.AuthEmailProperties;
 import com.unigear.tracker.features.auth.dto.AuthResponse;
+import com.unigear.tracker.features.auth.dto.ForgotPasswordRequest;
 import com.unigear.tracker.features.auth.dto.LoginRequest;
 import com.unigear.tracker.features.auth.dto.RegisterRequest;
+import com.unigear.tracker.features.auth.dto.ResetPasswordRequest;
+import com.unigear.tracker.features.auth.entity.PasswordResetToken;
+import com.unigear.tracker.features.auth.repository.PasswordResetTokenRepository;
+import com.unigear.tracker.features.auth.service.EmailService;
 import com.unigear.tracker.features.user.entity.User;
 import com.unigear.tracker.features.user.repository.UserRepository;
 import com.unigear.tracker.features.auth.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class AuthService {
+
+    private static final Logger log = LoggerFactory.getLogger(AuthService.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -21,10 +35,20 @@ public class AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private AuthEmailProperties emailProperties;
+
     @Value("${app.admin.email:admin@unigear.com}")
     private String adminEmail;
-
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -49,6 +73,12 @@ public class AuthService {
             savedUser.getRole().name()
         );
         response.setMessage("Registration successful");
+
+        try {
+            emailService.sendWelcomeEmail(savedUser.getEmail(), savedUser.getName());
+        } catch (RuntimeException ex) {
+            log.warn("Welcome email could not be sent to {}: {}", savedUser.getEmail(), ex.getMessage());
+        }
         return response;
     }
 
@@ -70,6 +100,43 @@ public class AuthService {
         );
         response.setAccessToken(token);
         return response;
+    }
+
+    @Transactional
+    public AuthResponse requestPasswordReset(ForgotPasswordRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("No account found with that email"));
+
+        passwordResetTokenRepository.deleteByUserEmail(user.getEmail());
+
+        PasswordResetToken resetToken = new PasswordResetToken();
+        resetToken.setToken(UUID.randomUUID().toString());
+        resetToken.setUser(user);
+        resetToken.setExpiresAt(LocalDateTime.now().plusMinutes(emailProperties.passwordResetTokenExpiryMinutes()));
+        resetToken.setUsed(false);
+        passwordResetTokenRepository.save(resetToken);
+
+        emailService.sendPasswordResetEmail(user.getEmail(), user.getName(), resetToken.getToken());
+
+        return new AuthResponse("Password reset instructions have been sent to your email.");
+    }
+
+    public AuthResponse resetPassword(ResetPasswordRequest request) {
+        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(request.getToken())
+                .orElseThrow(() -> new RuntimeException("Invalid or expired reset token"));
+
+        if (resetToken.isUsed() || resetToken.getExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("Invalid or expired reset token");
+        }
+
+        User user = resetToken.getUser();
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+
+        resetToken.setUsed(true);
+        passwordResetTokenRepository.save(resetToken);
+
+        return new AuthResponse("Password reset successful. You can now log in with your new password.");
     }
 
     /**

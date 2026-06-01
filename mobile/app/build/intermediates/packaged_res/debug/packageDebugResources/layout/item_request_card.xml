@@ -52,6 +52,22 @@
         android:textSize="13sp" />
 
     <TextView
+        android:id="@+id/tvRequestBorrowReturn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="#555555"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tvRequestStudent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="#555555"
+        android:textSize="13sp" />
+
+    <TextView
         android:id="@+id/tvRequestDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,9 +89,10 @@
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/home_chip_inactive"
+        android:backgroundTint="@null"
         android:text="Delete"
         android:textAllCaps="false"
-        android:textColor="#550000"
+        android:textColor="@color/chip_text_color"
         android:textStyle="bold" />
 
 </LinearLayout>

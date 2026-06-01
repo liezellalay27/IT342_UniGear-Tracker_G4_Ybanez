@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import rawStyles from './MyRequests.module.css';
 import logo from '../../assets/UniGear Symbol.png';
+import { getCurrentUser } from '../../services/authService';
 
 const styles = new Proxy(rawStyles, {
   get(target, prop) {
@@ -18,6 +19,7 @@ const styles = new Proxy(rawStyles, {
 const API_URL = 'http://localhost:8080/api';
 
 function MyRequests() {
+  const currentUser = getCurrentUser();
   const [requests, setRequests] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -33,7 +35,7 @@ function MyRequests() {
     quantity: 1,
     borrowDate: '',
     returnDate: '',
-    studentName: '',
+    studentName: currentUser?.name || '',
     schoolIdNumber: '',
     yearLevel: '',
     course: '',
@@ -128,6 +130,27 @@ function MyRequests() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    const missingFields = [];
+    if (!formData.equipmentName.trim()) missingFields.push('equipment name');
+    if (!formData.category.trim()) missingFields.push('category');
+    if (!formData.quantity || formData.quantity < 1) missingFields.push('quantity');
+    if (!formData.borrowDate) missingFields.push('borrow date');
+    if (!formData.returnDate) missingFields.push('return date');
+    if (!formData.studentName.trim()) missingFields.push('student name');
+    if (!formData.schoolIdNumber.trim()) missingFields.push('school ID number');
+    if (!formData.yearLevel.trim()) missingFields.push('year');
+    if (!formData.course.trim()) missingFields.push('course');
+
+    if (missingFields.length > 0) {
+      setError(`Please complete: ${missingFields.join(', ')}.`);
+      return;
+    }
+
+    if (!/^\d{2}-\d{4}-\d{3}$/.test(formData.schoolIdNumber.trim())) {
+      setError('School ID must follow the format 17-0635-488.');
+      return;
+    }
     
     try {
       const token = localStorage.getItem('token');
@@ -165,7 +188,7 @@ function MyRequests() {
           quantity: 1,
           borrowDate: '',
           returnDate: '',
-          studentName: '',
+          studentName: currentUser?.name || '',
           schoolIdNumber: '',
           yearLevel: '',
           course: '',
@@ -317,7 +340,7 @@ function MyRequests() {
         {showForm && (
           <div className={styles.requestForm}>
             <h2>Create New Request</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} noValidate>
               <div className={styles.formRow}>
                 <div className={styles.formGroup}>
                   <label>Equipment Name *</label>

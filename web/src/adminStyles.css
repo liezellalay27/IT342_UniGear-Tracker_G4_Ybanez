@@ -117,6 +117,11 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
+.admin-panel-card {
+  position: relative;
+  z-index: 10;
+}
+
 .admin-panel-card h2 {
   margin: 0 0 8px;
   color: #3d0000;
@@ -256,8 +261,47 @@
 .admin-equipment-item {
   border: 2px solid #f0f0f0;
   border-radius: 12px;
-  padding: 14px;
+  padding: 12px 14px;
   background: white;
+}
+
+.admin-request-card {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-request-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.admin-request-grid {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.admin-request-card textarea {
+  width: 100%;
+  min-height: 72px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  font: inherit;
+  resize: vertical;
+}
+
+.admin-request-actions,
+.admin-list-footer {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin-list-footer {
+  justify-content: flex-end;
 }
 
 .admin-item-title {
@@ -301,6 +345,12 @@
   transform: translateY(-1px);
 }
 
+.admin-overview-panel .btn-cancel,
+.admin-list-header .btn-cancel,
+.admin-list-footer .btn-cancel {
+  padding: 10px 14px;
+}
+
 .admin-table-wrap {
   overflow-x: auto;
   border: 2px solid #f0f0f0;
@@ -318,6 +368,15 @@
   padding: 12px;
   border-bottom: 1px solid #ececec;
   font-size: 14px;
+}
+
+/* Development overlay suppression: allow clicks when an old runtime overlay remains visible */
+#webpack-dev-server-client-overlay,
+.webpack-dev-server-client-overlay,
+#react-error-overlay,
+.react-error-overlay {
+  display: none !important;
+  pointer-events: none !important;
 }
 
 .admin-table th {

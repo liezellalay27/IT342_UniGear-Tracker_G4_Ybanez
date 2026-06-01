@@ -37,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
         googleLoginButton = findViewById(R.id.btnGoogleLogin)
         backendLabel = findViewById(R.id.tvBackendLabel)
         val changeBackend = findViewById<TextView>(R.id.tvChangeBackend)
+        val forgotPassword = findViewById<TextView>(R.id.tvForgotPassword)
         val goRegister = findViewById<TextView>(R.id.tvGoRegister)
 
         // Allow overriding backend URL for physical-device testing.
@@ -60,6 +61,10 @@ class LoginActivity : AppCompatActivity() {
 
         googleLoginButton.setOnClickListener {
             startGoogleLogin()
+        }
+
+        forgotPassword.setOnClickListener {
+            showForgotPasswordDialog()
         }
 
         changeBackend.setOnClickListener {
@@ -97,10 +102,15 @@ class LoginActivity : AppCompatActivity() {
                         .putString("token", result.token)
                         .putString("name", result.name)
                         .putString("email", result.email ?: email)
+                        .putString("role", result.role ?: "USER")
                         .apply()
 
-                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, HomeActivity::class.java)
+                    UiToast.show(this, "Login successful. Welcome back.", UiToast.Style.SUCCESS)
+                    val intent = if (result.role.equals("ADMIN", ignoreCase = true)) {
+                        Intent(this, AdminDashboardActivity::class.java)
+                    } else {
+                        Intent(this, HomeActivity::class.java)
+                    }
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                 } else {
@@ -164,10 +174,52 @@ class LoginActivity : AppCompatActivity() {
                 AuthApiClient.setBackendBaseUrl(value)
                 updateBackendLabel()
                 showError("")
-                Toast.makeText(this, "Backend URL updated", Toast.LENGTH_SHORT).show()
+                UiToast.show(this, "Backend URL updated.", UiToast.Style.SUCCESS)
             }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+
+    private fun showForgotPasswordDialog() {
+        val view = layoutInflater.inflate(R.layout.dialog_forgot_password, null)
+        val input = view.findViewById<EditText>(R.id.etForgotEmail)
+        input.setText(emailInput.text?.toString()?.trim().orEmpty())
+
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Forgot Password")
+            .setView(view)
+            .setPositiveButton("Send", null)
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.setOnShowListener {
+            val send = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            send.setOnClickListener {
+                val email = input.text.toString().trim()
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    showError("Please enter a valid email address")
+                    return@setOnClickListener
+                }
+
+                showError("")
+                setLoading(true)
+
+                Thread {
+                    val result = AuthApiClient.requestPasswordReset(email)
+                    runOnUiThread {
+                        setLoading(false)
+                        if (result.success) {
+                            UiToast.show(this, "Password reset email sent. Check your inbox.", UiToast.Style.SUCCESS, long = true)
+                            dialog.dismiss()
+                        } else {
+                            showError(result.message)
+                        }
+                    }
+                }.start()
+            }
+        }
+
+        dialog.show()
     }
 
     private fun startGoogleLogin() {

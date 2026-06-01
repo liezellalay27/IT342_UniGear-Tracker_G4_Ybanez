@@ -197,6 +197,7 @@
                     android:layout_height="54dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/auth_primary_button"
+                    android:backgroundTint="@null"
                     android:text="Create Account"
                     android:textAllCaps="true"
                     android:textColor="#FFFFFF"

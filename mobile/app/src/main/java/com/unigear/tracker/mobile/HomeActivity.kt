@@ -1,6 +1,7 @@
 package com.unigear.tracker.mobile
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +11,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class HomeActivity : AppCompatActivity() {
@@ -20,12 +22,9 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var listContainer: LinearLayout
     private lateinit var noResultsText: TextView
 
-    private lateinit var btnCatAll: Button
-    private lateinit var btnCatMicroscopes: Button
-    private lateinit var btnCatGlassware: Button
-    private lateinit var btnCatElectronics: Button
-    private lateinit var btnCatSafety: Button
-    private lateinit var btnCatChemicals: Button
+    private lateinit var categoryContainer: LinearLayout
+
+    private val categoryButtons = mutableMapOf<String, Button>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +34,11 @@ class HomeActivity : AppCompatActivity() {
         listContainer = findViewById(R.id.llEquipmentList)
         noResultsText = findViewById(R.id.tvNoResults)
 
-        btnCatAll = findViewById(R.id.btnCatAll)
-        btnCatMicroscopes = findViewById(R.id.btnCatMicroscopes)
-        btnCatGlassware = findViewById(R.id.btnCatGlassware)
-        btnCatElectronics = findViewById(R.id.btnCatElectronics)
-        btnCatSafety = findViewById(R.id.btnCatSafety)
-        btnCatChemicals = findViewById(R.id.btnCatChemicals)
+        categoryContainer = findViewById(R.id.llCategoryFilters)
+
+        findViewById<View>(R.id.btnHomeLogout).setOnClickListener {
+            showLogoutConfirmation()
+        }
 
         findViewById<View>(R.id.btnNavCatalog).setOnClickListener { }
         findViewById<View>(R.id.btnNavRequests).setOnClickListener {
@@ -58,10 +56,12 @@ class HomeActivity : AppCompatActivity() {
 
     private fun fetchEquipment() {
         Thread {
-            val result = AuthApiClient.getEquipment()
+            val token = getSharedPreferences("unigear_auth", MODE_PRIVATE).getString("token", null)
+            val result = AuthApiClient.getEquipment(token)
             runOnUiThread {
                 if (result.success) {
                     equipment = result.equipment.toMutableList()
+                    rebuildCategoryFilters()
                     renderEquipment()
                 } else {
                     noResultsText.text = "Failed to load equipment: ${result.message}"
@@ -83,12 +83,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupCategoryFilters() {
-        btnCatAll.setOnClickListener { setCategory("all") }
-        btnCatMicroscopes.setOnClickListener { setCategory("microscopes") }
-        btnCatGlassware.setOnClickListener { setCategory("glassware") }
-        btnCatElectronics.setOnClickListener { setCategory("electronics") }
-        btnCatSafety.setOnClickListener { setCategory("safety equipment") }
-        btnCatChemicals.setOnClickListener { setCategory("chemicals") }
+        rebuildCategoryFilters()
     }
 
     private fun setCategory(category: String) {
@@ -98,16 +93,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun updateCategoryStyles() {
-        val allButtons = listOf(
-            btnCatAll to "all",
-            btnCatMicroscopes to "microscopes",
-            btnCatGlassware to "glassware",
-            btnCatElectronics to "electronics",
-            btnCatSafety to "safety equipment",
-            btnCatChemicals to "chemicals"
-        )
-
-        allButtons.forEach { (button, category) ->
+        categoryButtons.forEach { (category, button) ->
             if (category == selectedCategory) {
                 button.setBackgroundResource(R.drawable.home_chip_active)
                 button.setTextColor(getColor(R.color.ug_white))
@@ -118,13 +104,70 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    private fun rebuildCategoryFilters() {
+        categoryContainer.removeAllViews()
+        categoryButtons.clear()
+
+        addCategoryButton("all", "All")
+
+        val categories = equipment
+            .map { normalizeCategoryLabel(it.category) }
+            .filter { it.isNotBlank() }
+            .distinct()
+            .sorted()
+
+        categories.forEach { category ->
+            addCategoryButton(category, formatCategoryLabel(category))
+        }
+
+        updateCategoryStyles()
+    }
+
+    private fun addCategoryButton(categoryKey: String, label: String) {
+        val button = Button(this).apply {
+            text = label
+            isAllCaps = false
+            setTypeface(typeface, Typeface.BOLD)
+            setTextColor(getColor(R.color.ug_maroon))
+            setBackgroundResource(R.drawable.home_chip_inactive)
+            setOnClickListener { setCategory(categoryKey) }
+        }
+
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        ).apply {
+            setMargins(0, 0, 12, 0)
+        }
+
+        button.layoutParams = params
+        categoryButtons[categoryKey] = button
+        categoryContainer.addView(button)
+    }
+
+    private fun normalizeCategoryLabel(category: String): String {
+        return category.trim().lowercase()
+    }
+
+    private fun formatCategoryLabel(category: String): String {
+        return category.split(" ", "-", "_")
+            .filter { it.isNotBlank() }
+            .joinToString(" ") { part ->
+                part.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+            }
+    }
+
     private fun renderEquipment() {
         val searchText = searchInput.text.toString().trim().lowercase()
         val filtered = equipment.filter { item ->
-            val matchesSearch = item.name.lowercase().contains(searchText) ||
-                item.category.lowercase().contains(searchText)
+            val matchesSearch = searchText.isBlank() ||
+                item.name.lowercase().contains(searchText) ||
+                item.category.lowercase().contains(searchText) ||
+                item.location.lowercase().contains(searchText) ||
+                item.description.lowercase().contains(searchText) ||
+                item.condition.lowercase().contains(searchText)
             val matchesCategory = selectedCategory == "all" ||
-                item.category.lowercase() == selectedCategory
+                categoryMatches(item.category, selectedCategory)
             matchesSearch && matchesCategory
         }
 
@@ -170,5 +213,38 @@ class HomeActivity : AppCompatActivity() {
 
             listContainer.addView(card)
         }
+    }
+
+    private fun categoryMatches(itemCategory: String, selectedCategory: String): Boolean {
+        val normalizedItem = itemCategory.lowercase().trim()
+        val normalizedSelected = selectedCategory.lowercase().trim()
+        return normalizedItem.contains(normalizedSelected) || normalizedSelected.contains(normalizedItem)
+    }
+
+    private fun showLogoutConfirmation() {
+        AlertDialog.Builder(this)
+            .setTitle("Logout")
+            .setMessage("Are you sure you want to logout?")
+            .setPositiveButton("Yes") { _, _ ->
+                performLogout()
+            }
+            .setNegativeButton("No", null)
+            .show()
+    }
+
+    private fun performLogout() {
+        val sharedPref = getSharedPreferences("unigear_auth", MODE_PRIVATE)
+        sharedPref.edit().clear().apply()
+
+        Thread {
+            AuthApiClient.logout()
+            runOnUiThread {
+                UiToast.show(this, "You have been logged out.", UiToast.Style.INFO)
+                val loginIntent = Intent(this, LoginActivity::class.java)
+                loginIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(loginIntent)
+                finish()
+            }
+        }.start()
     }
 }

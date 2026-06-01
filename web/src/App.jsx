@@ -2,7 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Register from './components/Register.jsx';
 import Login from './components/Login.jsx';
+import ForgotPassword from './components/ForgotPassword.jsx';
 import OAuth2Callback from './components/OAuth2Callback.jsx';
+import LandingPage from './components/LandingPage.jsx';
 import HomepageCatalog from './components/Users/HomepageCatalog.jsx';
 import EquipmentDetail from './components/EquipmentDetail.jsx';
 import MyRequests from './components/Users/MyRequests.jsx';
@@ -46,9 +48,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/oauth2/callback" element={<OAuth2Callback />} />
         <Route 
           path="/dashboard" 
@@ -88,6 +91,7 @@ function App() {
             </AdminRoute>
           }
         />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );

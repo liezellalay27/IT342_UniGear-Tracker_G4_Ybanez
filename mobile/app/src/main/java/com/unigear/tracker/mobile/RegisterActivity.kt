@@ -75,7 +75,7 @@ class RegisterActivity : AppCompatActivity() {
                 if (result.success) {
                     successText.text = "Registration successful! Redirecting to login..."
                     successText.visibility = View.VISIBLE
-                    Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
+                    UiToast.show(this, "Registration successful. Welcome aboard.", UiToast.Style.SUCCESS)
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish()
                     }, 1200)

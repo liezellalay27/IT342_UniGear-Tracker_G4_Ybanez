@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/equipment")
+@RequestMapping("/equipment")
 @CrossOrigin(origins = "*")
 public class EquipmentController {
 
@@ -45,6 +45,22 @@ public class EquipmentController {
             return ResponseEntity.ok(equipmentService.getEquipmentById(id));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<?> getCategories() {
+        try {
+            List<EquipmentDto> items = equipmentService.getAllEquipment(null, null);
+            List<String> categories = items.stream()
+                    .map(EquipmentDto::getCategory)
+                    .filter(c -> c != null && !c.isBlank())
+                    .distinct()
+                    .sorted(String.CASE_INSENSITIVE_ORDER)
+                    .toList();
+            return ResponseEntity.ok(categories);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
@@ -75,6 +91,37 @@ public class EquipmentController {
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
         } catch (SecurityException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateEquipment(
+            @PathVariable Long id,
+            @Valid @RequestBody CreateEquipmentDto dto,
+            Authentication authentication) {
+        try {
+            String email = getUserEmail(authentication);
+            EquipmentDto updated = equipmentService.updateEquipment(email, id, dto);
+            return ResponseEntity.ok(updated);
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteEquipment(@PathVariable Long id, Authentication authentication) {
+        try {
+            String email = getUserEmail(authentication);
+            equipmentService.deleteEquipment(email, id);
+            return ResponseEntity.noContent().build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        } catch (com.unigear.tracker.exceptions.ResourceConflictException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

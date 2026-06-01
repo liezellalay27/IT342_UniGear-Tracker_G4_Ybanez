@@ -129,6 +129,12 @@ function Login() {
             {errors.password && <span className={styles.errorText}>{errors.password}</span>}
           </div>
 
+          <div style={{ marginTop: '-8px', marginBottom: '12px', textAlign: 'right' }}>
+            <Link to="/forgot-password" style={{ color: '#550000', fontWeight: 600, textDecoration: 'none' }}>
+              Forgot password?
+            </Link>
+          </div>
+
           <button type="submit" className={styles.btnPrimary} disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}
           </button>

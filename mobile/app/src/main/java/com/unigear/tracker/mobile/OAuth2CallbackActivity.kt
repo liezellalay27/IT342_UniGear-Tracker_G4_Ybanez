@@ -3,7 +3,6 @@ package com.unigear.tracker.mobile
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class OAuth2CallbackActivity : AppCompatActivity() {
@@ -15,7 +14,7 @@ class OAuth2CallbackActivity : AppCompatActivity() {
 
     private fun handleRedirect(data: Uri?) {
         if (data == null) {
-            Toast.makeText(this, "Google authentication failed", Toast.LENGTH_SHORT).show()
+            UiToast.show(this, "Google authentication failed.", UiToast.Style.ERROR)
             finishToLogin()
             return
         }
@@ -24,13 +23,13 @@ class OAuth2CallbackActivity : AppCompatActivity() {
         val error = data.getQueryParameter("error")
 
         if (!error.isNullOrBlank()) {
-            Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+            UiToast.show(this, error, UiToast.Style.ERROR, long = true)
             finishToLogin()
             return
         }
 
         if (token.isNullOrBlank()) {
-            Toast.makeText(this, "No token received from Google login", Toast.LENGTH_LONG).show()
+            UiToast.show(this, "No token received from Google login.", UiToast.Style.ERROR, long = true)
             finishToLogin()
             return
         }
@@ -40,11 +39,39 @@ class OAuth2CallbackActivity : AppCompatActivity() {
             .putString("token", token)
             .apply()
 
-        Toast.makeText(this, "Google login successful", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, HomeActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
+        Thread {
+            val profileResult = AuthApiClient.getUserProfile(token)
+            runOnUiThread {
+                if (profileResult.success && profileResult.user != null) {
+                    getSharedPreferences("unigear_auth", MODE_PRIVATE)
+                        .edit()
+                        .putString("name", profileResult.user.name)
+                        .putString("email", profileResult.user.email)
+                        .putString("role", profileResult.user.role ?: "USER")
+                        .apply()
+
+                    UiToast.show(this, "Google login successful.", UiToast.Style.SUCCESS)
+                    val intent = if (profileResult.user.role.equals("ADMIN", ignoreCase = true)) {
+                        Intent(this, AdminDashboardActivity::class.java)
+                    } else {
+                        Intent(this, HomeActivity::class.java)
+                    }
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                } else {
+                    UiToast.show(
+                        this,
+                        profileResult.message.ifBlank { "Google login successful." },
+                        UiToast.Style.INFO,
+                        long = true
+                    )
+                    val intent = Intent(this, HomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
+                finish()
+            }
+        }.start()
     }
 
     private fun finishToLogin() {

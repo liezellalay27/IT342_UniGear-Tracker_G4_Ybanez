@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Active/pressed/selected state: use white text on dark background -->
+    <item android:state_pressed="true" android:color="#FFFFFF" />
+    <item android:state_selected="true" android:color="#FFFFFF" />
+    <item android:state_checked="true" android:color="#FFFFFF" />
+    <!-- Default: maroon text for inactive chips -->
+    <item android:color="#550000" />
+</selector>
