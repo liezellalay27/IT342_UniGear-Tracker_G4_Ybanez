@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CECECE">
+    android:background="@drawable/bg_mobile_app">
 
     <LinearLayout
         android:id="@+id/bottomNav"
         android:layout_width="0dp"
         android:layout_height="80dp"
-        android:background="#FAF9F6"
+        android:background="@drawable/splash_card_bg"
         android:elevation="8dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -32,14 +32,14 @@
                 android:layout_height="28dp"
                 android:contentDescription="Back"
                 android:src="@android:drawable/ic_media_previous"
-                app:tint="#1D1D1D" />
+                app:tint="@color/ug_near_black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Back"
-                android:textColor="#111111"
+                android:textColor="@color/ug_near_black"
                 android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -58,14 +58,14 @@
                 android:layout_height="28dp"
                 android:contentDescription="Refresh"
                 android:src="@android:drawable/ic_popup_sync"
-                app:tint="#550000" />
+                app:tint="@color/ug_maroon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Refresh"
-                android:textColor="#550000"
+                android:textColor="@color/ug_maroon"
                 android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -90,9 +90,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Equipment Admin"
-                android:textColor="#1D1D1D"
+                android:textColor="@color/ug_maroon_dark"
                 android:textSize="26sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Add, search, and manage inventory in one place"
+                android:textColor="@color/ug_maroon"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tvEquipmentAdminError"
@@ -110,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="#550000"
+                android:textColor="@color/ug_maroon"
                 android:textSize="13sp"
                 android:visibility="gone" />
 
@@ -120,9 +128,10 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="14dp"
                 android:background="@drawable/auth_input_bg"
-                android:hint="Search equipment"
+                android:hint="Search equipment by name or category"
                 android:paddingHorizontal="12dp"
-                android:textColor="#222222" />
+                android:textColor="@color/ug_near_black"
+                android:textColorHint="@color/ug_text_muted" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -136,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Add Equipment"
-                    android:textColor="#550000"
+                    android:textColor="@color/ug_maroon_dark"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -148,7 +157,8 @@
                     android:background="@drawable/auth_input_bg"
                     android:hint="Name"
                     android:paddingHorizontal="12dp"
-                    android:textColor="#222222" />
+                    android:textColor="@color/ug_near_black"
+                    android:textColorHint="@color/ug_text_muted" />
 
                 <EditText
                     android:id="@+id/etAdminEquipmentCategory"
@@ -158,7 +168,8 @@
                     android:background="@drawable/auth_input_bg"
                     android:hint="Category"
                     android:paddingHorizontal="12dp"
-                    android:textColor="#222222" />
+                    android:textColor="@color/ug_near_black"
+                    android:textColorHint="@color/ug_text_muted" />
 
                 <EditText
                     android:id="@+id/etAdminEquipmentLocation"
@@ -168,7 +179,8 @@
                     android:background="@drawable/auth_input_bg"
                     android:hint="Location"
                     android:paddingHorizontal="12dp"
-                    android:textColor="#222222" />
+                    android:textColor="@color/ug_near_black"
+                    android:textColorHint="@color/ug_text_muted" />
 
                 <EditText
                     android:id="@+id/etAdminEquipmentDescription"
@@ -180,7 +192,8 @@
                     android:hint="Description"
                     android:inputType="textMultiLine"
                     android:padding="12dp"
-                    android:textColor="#222222" />
+                    android:textColor="@color/ug_near_black"
+                    android:textColorHint="@color/ug_text_muted" />
 
                 <EditText
                     android:id="@+id/etAdminEquipmentSpecifications"
@@ -192,7 +205,8 @@
                     android:hint="Specifications, one per line or comma-separated"
                     android:inputType="textMultiLine"
                     android:padding="12dp"
-                    android:textColor="#222222" />
+                    android:textColor="@color/ug_near_black"
+                    android:textColorHint="@color/ug_text_muted" />
 
                 <EditText
                     android:id="@+id/etAdminEquipmentTotalQty"
@@ -255,7 +269,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:text="Existing Equipment"
-                android:textColor="#550000"
+                android:textColor="@color/ug_maroon_dark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

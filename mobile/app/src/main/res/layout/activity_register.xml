@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#550000">
+    android:background="@drawable/bg_mobile_app">
 
     <View
         android:id="@+id/topGoldBand"
@@ -58,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="UniGear Tracker"
-                        android:textColor="#550000"
+                        android:textColor="#3B0814"
                         android:textSize="27sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -69,7 +69,7 @@
                     android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="Create Account"
-                    android:textColor="#550000"
+                    android:textColor="#3B0814"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -79,7 +79,7 @@
                     android:layout_marginTop="6dp"
                     android:gravity="center"
                     android:text="Sign up to get started"
-                    android:textColor="#666666"
+                    android:textColor="#6E6258"
                     android:textSize="14sp" />
 
                 <TextView
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:text="Full Name"
-                    android:textColor="#550000"
+                    android:textColor="#3B0814"
                     android:textStyle="bold" />
 
                 <EditText
@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:text="Email Address"
-                    android:textColor="#550000"
+                    android:textColor="#3B0814"
                     android:textStyle="bold" />
 
                 <EditText
@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:text="Password"
-                    android:textColor="#550000"
+                    android:textColor="#3B0814"
                     android:textStyle="bold" />
 
                 <EditText
@@ -174,7 +174,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:text="Confirm Password"
-                    android:textColor="#550000"
+                    android:textColor="#3B0814"
                     android:textStyle="bold" />
 
                 <EditText
@@ -199,7 +199,7 @@
                     android:background="@drawable/auth_primary_button"
                     android:backgroundTint="@null"
                     android:text="Create Account"
-                    android:textAllCaps="true"
+                    android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" />
 
@@ -210,7 +210,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="18dp"
                     android:text="Already have an account? Login here"
-                    android:textColor="#550000"
+                    android:textColor="#6B0F24"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

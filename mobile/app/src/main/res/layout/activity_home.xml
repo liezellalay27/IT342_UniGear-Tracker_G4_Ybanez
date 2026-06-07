@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CECECE">
+    android:background="@drawable/bg_mobile_app">
 
     <LinearLayout
         android:id="@+id/bottomNav"
         android:layout_width="0dp"
         android:layout_height="92dp"
-        android:background="#FAF9F6"
+        android:background="@drawable/splash_card_bg"
         android:elevation="8dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -114,7 +114,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="76dp"
-                android:background="#FAF9F6"
+                android:background="@drawable/splash_card_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="14dp">
@@ -159,7 +159,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#550000"
+                android:background="@drawable/bg_gold_gradient"
                 android:orientation="vertical"
                 android:paddingHorizontal="16dp"
                 android:paddingTop="18dp"
@@ -169,7 +169,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="University Equipment Catalog"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#3B0814"
                     android:textSize="23sp"
                     android:textStyle="bold" />
 
@@ -178,9 +178,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text="Browse and borrow laboratory equipment for your research and projects"
-                    android:textColor="#FFD700"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+                    android:textColor="#4E0B19"
+                    android:textSize="12sp" />
 
                 <EditText
                     android:id="@+id/etSearch"
@@ -190,21 +189,29 @@
                     android:background="@drawable/home_search_bg"
                     android:drawableEnd="@android:drawable/ic_menu_search"
                     android:drawablePadding="10dp"
-                    android:hint="Hinted search text"
+                    android:hint="Search equipment, categories, or locations"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:paddingHorizontal="18dp"
                     android:textColor="#222222"
-                    android:textColorHint="#666666" />
+                    android:textColorHint="#6E6258" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#CECECE"
+                android:background="@android:color/transparent"
                 android:orientation="vertical"
                 android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Featured filters"
+                    android:textColor="#F5E1A4"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -223,8 +230,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:text="Filter by Category"
-                        android:textColor="#111111"
+                        android:text="Filter by category"
+                        android:textColor="#FFF8EF"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>

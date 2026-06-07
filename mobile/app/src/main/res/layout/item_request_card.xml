@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="#550000"
+            android:textColor="#3B0814"
             android:textSize="17sp"
             android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
             android:paddingHorizontal="10dp"
             android:paddingVertical="6dp"
             android:text="PENDING"
-            android:textColor="#F57C00"
+            android:textColor="#A35A00"
             android:textSize="12sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textColor="#555555"
+        android:textColor="#6E6258"
         android:textSize="13sp" />
 
     <TextView
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textColor="#555555"
+        android:textColor="#6E6258"
         android:textSize="13sp" />
 
     <TextView
@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textColor="#555555"
+        android:textColor="#6E6258"
         android:textSize="13sp" />
 
     <TextView
@@ -64,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textColor="#555555"
+        android:textColor="#6E6258"
         android:textSize="13sp" />
 
     <TextView
@@ -80,7 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textColor="#333333"
+        android:textColor="#3B0814"
         android:textSize="14sp" />
 
     <Button

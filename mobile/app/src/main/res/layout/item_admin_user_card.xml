@@ -5,14 +5,14 @@
     android:layout_marginBottom="12dp"
     android:background="@drawable/home_card_shell"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/tvAdminUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#550000"
-        android:textSize="17sp"
+        android:textColor="@color/ug_maroon_dark"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textColor="#555555"
+        android:textColor="@color/ug_text_muted"
         android:textSize="13sp" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:background="@drawable/status_available_bg"
         android:paddingHorizontal="10dp"
         android:paddingVertical="6dp"
-        android:textColor="#2E7D32"
+        android:textColor="@color/status_available_text"
         android:textSize="12sp"
         android:textStyle="bold" />
 
@@ -40,6 +40,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:textColor="#555555"
+        android:textColor="@color/ug_text_muted"
         android:textSize="13sp" />
 </LinearLayout>

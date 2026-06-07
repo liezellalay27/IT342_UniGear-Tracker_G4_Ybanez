@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.UniGearMobile" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.UniGearMobile" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ug_maroon</item>
         <item name="colorPrimaryVariant">@color/ug_maroon_dark</item>
         <item name="colorOnPrimary">@color/ug_white</item>
@@ -13,6 +13,7 @@
         <item name="colorOnSurface">@color/ug_near_black</item>
         <item name="colorAccent">@color/ug_gold</item>
 
+        <item name="android:windowBackground">@drawable/bg_mobile_app</item>
         <item name="android:statusBarColor">@color/ug_maroon</item>
         <item name="android:navigationBarColor">@color/ug_maroon</item>
     </style>

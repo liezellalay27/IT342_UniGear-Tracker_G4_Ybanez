@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CECECE">
+    android:background="@drawable/bg_mobile_app">
 
     <ScrollView
         android:layout_width="0dp"
@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="My Profile"
-                android:textColor="#1D1D1D"
+                android:textColor="@color/ug_maroon_dark"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="20dp" />
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/ug_surface"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp">
 
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/ug_surface"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp">
 
@@ -126,7 +126,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Name"
-                                android:textColor="#8B0000"
+                                android:textColor="@color/ug_maroon"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
 
@@ -137,7 +137,7 @@
                                 android:backgroundTint="@null"
                                 android:paddingHorizontal="12dp"
                                 android:text="Edit"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/ug_white"
                                 android:textSize="12sp" />
 
                         </LinearLayout>
@@ -147,7 +147,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Loading..."
-                            android:textColor="#1D1D1D"
+                            android:textColor="@color/ug_maroon_dark"
                             android:textSize="16sp"
                             android:layout_marginTop="4dp" />
 
@@ -164,7 +164,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Email"
-                            android:textColor="#8B0000"
+                            android:textColor="@color/ug_maroon"
                             android:textSize="12sp"
                             android:textStyle="bold"
                             android:layout_marginBottom="4dp" />
@@ -174,7 +174,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Loading..."
-                            android:textColor="#1D1D1D"
+                            android:textColor="@color/ug_maroon_dark"
                             android:textSize="16sp" />
 
                     </LinearLayout>
@@ -190,7 +190,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Role"
-                            android:textColor="#8B0000"
+                            android:textColor="@color/ug_maroon"
                             android:textSize="12sp"
                             android:textStyle="bold"
                             android:layout_marginBottom="4dp" />
@@ -200,7 +200,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="User"
-                            android:textColor="#1D1D1D"
+                            android:textColor="@color/ug_maroon_dark"
                             android:textSize="16sp" />
 
                     </LinearLayout>
@@ -215,7 +215,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Member Since"
-                            android:textColor="#8B0000"
+                            android:textColor="@color/ug_maroon"
                             android:textSize="12sp"
                             android:textStyle="bold"
                             android:layout_marginBottom="4dp" />
@@ -225,7 +225,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Loading..."
-                            android:textColor="#1D1D1D"
+                            android:textColor="@color/ug_near_black"
                             android:textSize="16sp" />
 
                     </LinearLayout>
@@ -260,7 +260,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Admin Tools"
-                            android:textColor="#8B0000"
+                            android:textColor="@color/ug_maroon"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:layout_marginBottom="16dp" />
@@ -340,7 +340,7 @@
         android:id="@+id/bottomNav"
         android:layout_width="0dp"
         android:layout_height="92dp"
-        android:background="#FAF9F6"
+        android:background="@drawable/splash_card_bg"
         android:elevation="8dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -363,14 +363,14 @@
                 android:layout_height="32dp"
                 android:contentDescription="Catalog"
                 android:src="@android:drawable/ic_menu_view"
-                app:tint="#1D1D1D" />
+                app:tint="@color/ug_near_black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Catalog"
-                android:textColor="#111111"
+                android:textColor="@color/ug_near_black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -390,14 +390,14 @@
                 android:layout_height="32dp"
                 android:contentDescription="Requests"
                 android:src="@android:drawable/ic_menu_agenda"
-                app:tint="#1D1D1D" />
+                app:tint="@color/ug_near_black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Requests"
-                android:textColor="#111111"
+                android:textColor="@color/ug_near_black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -417,14 +417,14 @@
                 android:layout_height="32dp"
                 android:contentDescription="Profile"
                 android:src="@android:drawable/ic_menu_my_calendar"
-                app:tint="#8B0000" />
+                app:tint="@color/ug_maroon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Profile"
-                android:textColor="#8B0000"
+                android:textColor="@color/ug_maroon"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
